@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Let's Talk — And She Crafts</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <a href="index.html" class="logo"><img src="images/asc-logo.png" alt="And She Crafts logo"> And She Crafts</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
+    <nav><ul id="navList"><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="product-gallery.html">Product Gallery</a></li><li><a href="event-gallery.html">Event Gallery</a></li><li><a href="booking-guide.html">Booking</a></li><li><a href="lets-talk.html" class="active">Let's Talk</a></li><li><a href="faqs.html">FAQs</a></li><li><a href="policies.html">Policies</a></li></ul></nav>
+  </div>
+</header>
+
+<div class="page-banner">
+  <span class="eyebrow">06 — Let's Talk</span>
+  <h1>Let's Create Something Meaningful Together</h1>
+  <p>Every celebration begins with a conversation.</p>
+</div>
+
+<main>
+
+  <section style="padding-top:20px;">
+    <div class="container" style="max-width:900px;">
+      <div class="section-head center reveal" style="margin-left:auto;margin-right:auto;max-width:600px;">
+        <p class="lead-text">Whether you're planning a celebration, looking for personalized gifts, or building your business brand, we'd love to hear your ideas.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:40px;margin-top:20px;align-items:start;">
+        <div class="info-card reveal">
+          <h3 style="margin-bottom:18px;">Tell Us About Your Celebration</h3>
+          <form id="inquiryForm" class="inquiry-form">
+            <div class="form-row-2">
+              <div><label>Name</label><input type="text" name="name" required></div>
+              <div><label>Email Address</label><input type="email" name="email" required></div>
+            </div>
+            <div class="form-row-2">
+              <div><label>Contact Number (optional)</label><input type="text" name="contact"></div>
+              <div><label>Occasion</label><input type="text" name="occasion"></div>
+            </div>
+            <div class="form-row-2">
+              <div><label>Event Date</label><input type="text" name="eventdate" placeholder="e.g. August 2026"></div>
+              <div><label>Venue / Location</label><input type="text" name="venue"></div>
+            </div>
+            <div class="form-row-2">
+              <div><label>Estimated Guest Count</label><input type="text" name="guests"></div>
+              <div><label>Services You're Interested In</label><input type="text" name="services" placeholder="e.g. Styling, Invitations"></div>
+            </div>
+            <div><label>Theme or Inspiration Notes</label><input type="text" name="theme" placeholder="Describe your theme, colors, or ideas"></div>
+            <div>
+              <label>Theme or Inspiration Photos</label>
+              <div class="file-upload">
+                <input type="file" name="themefiles" accept="image/*" multiple>
+                <p style="font-size:0.72rem;color:#8a8580;margin-top:6px;">Note: this form can't send file attachments automatically — after submitting, please re-attach these photos to the email, or send them to us on Facebook Messenger.</p>
+              </div>
+            </div>
+            <div class="form-row-2">
+              <div><label>Preferred Budget (Optional)</label><input type="text" name="budget"></div>
+              <div><label>Other Special Requests</label><input type="text" name="requests"></div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top:8px;justify-self:start;">Send Inquiry</button>
+            <p style="font-size:0.78rem;color:#8a8580;margin-top:4px;">This opens your email app with everything filled in, ready to send to us.</p>
+          </form>
+        </div>
+
+        <div class="reveal" style="display:flex;flex-direction:column;gap:24px;">
+          <div class="info-card" style="text-align:center;">
+            <h3 style="margin-bottom:10px;">Prefer to Chat Instantly?</h3>
+            <p style="font-size:0.9rem;color:#6b6560;margin-bottom:18px;">Message us on Facebook and start the conversation right away.</p>
+            <a href="https://m.me/560537243808526" class="btn-facebook" target="_blank" rel="noopener">Message Us on Facebook</a>
+          </div>
+
+          <div class="info-card">
+            <h3 style="margin-bottom:8px;">Reach Us</h3>
+            <ul class="contact-info-list">
+              <li><span class="c-label">Facebook</span>And She Crafts</li>
+              <li><span class="c-label">Instagram</span>@andshecrafts_</li>
+              <li><span class="c-label">Email</span>andshecraftsph@gmail.com</li>
+              <li><span class="c-label">Business Hours</span>8:00 AM – 10:00 PM (Philippine Time)</li>
+              <li><span class="c-label">Service Areas</span>Pasig • Cainta • Marikina • Antipolo • Quezon</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container reveal" style="max-width:600px;">
+      <div class="continue-strip">
+        <p>Still have questions before reaching out?</p>
+        <a href="faqs.html" class="btn btn-primary">Frequently Asked Questions</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-logo"><img src="images/asc-logo.png" alt="And She Crafts logo"><div>And She Crafts</div></div>
+  <p>Pasig City, Philippines · Crafting Moments Worth Remembering</p>
+  <nav><ul><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="product-gallery.html">Product Gallery</a></li><li><a href="event-gallery.html">Event Gallery</a></li><li><a href="booking-guide.html">Booking</a></li><li><a href="lets-talk.html">Let's Talk</a></li><li><a href="faqs.html">FAQs</a></li><li><a href="policies.html">Policies</a></li></ul></nav>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
