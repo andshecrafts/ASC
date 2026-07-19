@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Event Gallery — And She Crafts</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="images/favicon/favicon-48x48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="images/favicon/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="images/favicon/android-chrome-512x512.png">
+<link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -11,8 +19,8 @@
 <header>
   <div class="nav-wrap">
     <a href="index.html" class="logo"><img src="images/asc-logo.png" alt="And She Crafts logo"> And She Crafts</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
-    <nav><ul id="navList"><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="product-gallery.html">Product Gallery</a></li><li><a href="event-gallery.html" class="active">Event Gallery</a></li><li><a href="booking-guide.html">Booking</a></li><li><a href="lets-talk.html">Let's Talk</a></li><li><a href="faqs.html">FAQs</a></li><li><a href="policies.html">Policies</a></li></ul></nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>    <nav><ul id="navList"><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="product-gallery.html">Product Gallery</a></li><li><a href="event-gallery.html" class="active">Event Gallery</a></li><li><a href="booking-guide.html">Booking</a></li><li><a href="lets-talk.html">Let's Talk</a></li><li><a href="faqs.html">FAQs</a></li><li><a href="policies.html">Policies</a></li></ul></nav>
+    <button type="button" class="quote-nav-btn">My Quote <span class="quote-badge">0</span></button>
   </div>
 </header>
 
@@ -103,6 +111,22 @@
 </footer>
 
 <div class="lightbox-overlay" id="lightbox"><img src="" alt=""></div>
-<script src="js/main.js"></script>
-</body>
+
+<div class="quote-drawer-overlay" id="quoteDrawerOverlay">
+  <div class="quote-drawer">
+    <div class="quote-drawer-head">
+      <h3>My Quote</h3>
+      <button class="quote-drawer-close" aria-label="Close">✕</button>
+    </div>
+    <div class="quote-drawer-body"></div>
+    <div class="quote-drawer-foot">
+      <div class="qd-total"><span>Estimated Total</span><span class="qd-total-value">₱0</span></div>
+      <p class="qd-note">Final quotations may vary depending on customization, materials, project requirements, and final discussion.</p>
+      <a href="lets-talk.html" class="btn btn-primary">Proceed to Inquiry</a>
+    </div>
+  </div>
+</div>
+<button type="button" class="quote-fab"><span>My Quote</span><span class="quote-badge">0</span></button>
+
+<script src="js/main.js"></script></body>
 </html>

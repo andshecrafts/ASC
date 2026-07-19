@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Services — And She Crafts</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="images/favicon/favicon-48x48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="images/favicon/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="images/favicon/android-chrome-512x512.png">
+<link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -13,13 +21,24 @@
     <a href="index.html" class="logo"><img src="images/asc-logo.png" alt="And She Crafts logo"> And She Crafts</a>
     <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
     <nav><ul id="navList"><li><a href="about.html">About</a></li><li><a href="services.html" class="active">Services</a></li><li><a href="product-gallery.html">Product Gallery</a></li><li><a href="event-gallery.html">Event Gallery</a></li><li><a href="booking-guide.html">Booking</a></li><li><a href="lets-talk.html">Let's Talk</a></li><li><a href="faqs.html">FAQs</a></li><li><a href="policies.html">Policies</a></li></ul></nav>
+    <button type="button" class="quote-nav-btn">My Quote <span class="quote-badge">0</span></button>
   </div>
 </header>
 
 <div class="page-banner">
   <span class="eyebrow">02 — Our Services</span>
   <h1>Products &amp; Services Catalog</h1>
-  <p>31 offerings across 6 categories. Tap any card to compare packages side by side, right on this page.</p>
+  <p>31 offerings across 6 categories. Compare packages, then add anything you like to your quote.</p>
+  
+  <div class="progress-steps">
+    <div class="progress-step active"><span class="p-dot">1</span><span class="p-text">Explore Services</span></div>
+    <span class="progress-sep">—</span>
+    <div class="progress-step"><span class="p-dot">2</span><span class="p-text">Build My Quote</span></div>
+    <span class="progress-sep">—</span>
+    <div class="progress-step"><span class="p-dot">3</span><span class="p-text">Tell Us About Your Project</span></div>
+    <span class="progress-sep">—</span>
+    <div class="progress-step"><span class="p-dot">4</span><span class="p-text">Receive Your Personalized Quote</span></div>
+  </div>
 </div>
 
 <main>
@@ -81,7 +100,7 @@
             <div class="svc-learn">Compare Packages →</div>
           </div>
         </button></div>
-        <div class="svc-detail-panel">
+        <div class="svc-detail-panel" data-has-qty="false">
           <div>
             <img class="d-img" src="" alt="">
             <div class="pkg-tabs"></div>
@@ -98,8 +117,9 @@
               <span class="d-label">Package Includes</span>
               <ul class="pkg-includes"></ul>
             </div>
+            
             <div class="pkg-btn-row">
-              <a href="#" class="btn btn-primary" onclick="return false;">Add to Celebration Plan</a>
+              <button type="button" class="btn btn-primary add-to-quote-btn">Add to My Quote</button>
               <a href="lets-talk.html" class="btn btn-outline">Request a Custom Quote</a>
             </div>
           </div>
@@ -148,7 +168,7 @@
             <div class="svc-learn">Compare Packages →</div>
           </div>
         </button></div>
-        <div class="svc-detail-panel">
+        <div class="svc-detail-panel" data-has-qty="true">
           <div>
             <img class="d-img" src="" alt="">
             <div class="pkg-tabs"></div>
@@ -165,8 +185,15 @@
               <span class="d-label">Package Includes</span>
               <ul class="pkg-includes"></ul>
             </div>
+            
+            <div class="qty-stepper">
+              <button type="button" data-act="dec">−</button>
+              <input type="number" min="1" value="1">
+              <button type="button" data-act="inc">+</button>
+              <span style="font-size:0.78rem;color:#8a8580;">quantity</span>
+            </div>
             <div class="pkg-btn-row">
-              <a href="#" class="btn btn-primary" onclick="return false;">Add to Celebration Plan</a>
+              <button type="button" class="btn btn-primary add-to-quote-btn">Add to My Quote</button>
               <a href="lets-talk.html" class="btn btn-outline">Request a Custom Quote</a>
             </div>
           </div>
@@ -263,7 +290,7 @@
             <div class="svc-learn">Compare Packages →</div>
           </div>
         </button></div>
-        <div class="svc-detail-panel">
+        <div class="svc-detail-panel" data-has-qty="true">
           <div>
             <img class="d-img" src="" alt="">
             <div class="pkg-tabs"></div>
@@ -280,8 +307,15 @@
               <span class="d-label">Package Includes</span>
               <ul class="pkg-includes"></ul>
             </div>
+            
+            <div class="qty-stepper">
+              <button type="button" data-act="dec">−</button>
+              <input type="number" min="1" value="1">
+              <button type="button" data-act="inc">+</button>
+              <span style="font-size:0.78rem;color:#8a8580;">quantity</span>
+            </div>
             <div class="pkg-btn-row">
-              <a href="#" class="btn btn-primary" onclick="return false;">Add to Celebration Plan</a>
+              <button type="button" class="btn btn-primary add-to-quote-btn">Add to My Quote</button>
               <a href="lets-talk.html" class="btn btn-outline">Request a Custom Quote</a>
             </div>
           </div>
@@ -390,7 +424,7 @@
             <div class="svc-learn">Compare Packages →</div>
           </div>
         </button></div>
-        <div class="svc-detail-panel">
+        <div class="svc-detail-panel" data-has-qty="true">
           <div>
             <img class="d-img" src="" alt="">
             <div class="pkg-tabs"></div>
@@ -407,8 +441,15 @@
               <span class="d-label">Package Includes</span>
               <ul class="pkg-includes"></ul>
             </div>
+            
+            <div class="qty-stepper">
+              <button type="button" data-act="dec">−</button>
+              <input type="number" min="1" value="1">
+              <button type="button" data-act="inc">+</button>
+              <span style="font-size:0.78rem;color:#8a8580;">quantity</span>
+            </div>
             <div class="pkg-btn-row">
-              <a href="#" class="btn btn-primary" onclick="return false;">Add to Celebration Plan</a>
+              <button type="button" class="btn btn-primary add-to-quote-btn">Add to My Quote</button>
               <a href="lets-talk.html" class="btn btn-outline">Request a Custom Quote</a>
             </div>
           </div>
@@ -493,7 +534,7 @@
             <div class="svc-learn">Compare Packages →</div>
           </div>
         </button></div>
-        <div class="svc-detail-panel">
+        <div class="svc-detail-panel" data-has-qty="true">
           <div>
             <img class="d-img" src="" alt="">
             <div class="pkg-tabs"></div>
@@ -510,8 +551,15 @@
               <span class="d-label">Package Includes</span>
               <ul class="pkg-includes"></ul>
             </div>
+            
+            <div class="qty-stepper">
+              <button type="button" data-act="dec">−</button>
+              <input type="number" min="1" value="1">
+              <button type="button" data-act="inc">+</button>
+              <span style="font-size:0.78rem;color:#8a8580;">quantity</span>
+            </div>
             <div class="pkg-btn-row">
-              <a href="#" class="btn btn-primary" onclick="return false;">Add to Celebration Plan</a>
+              <button type="button" class="btn btn-primary add-to-quote-btn">Add to My Quote</button>
               <a href="lets-talk.html" class="btn btn-outline">Request a Custom Quote</a>
             </div>
           </div>
@@ -560,7 +608,7 @@
             <div class="svc-learn">Compare Packages →</div>
           </div>
         </button></div>
-        <div class="svc-detail-panel">
+        <div class="svc-detail-panel" data-has-qty="false">
           <div>
             <img class="d-img" src="" alt="">
             <div class="pkg-tabs"></div>
@@ -577,20 +625,25 @@
               <span class="d-label">Package Includes</span>
               <ul class="pkg-includes"></ul>
             </div>
+            
             <div class="pkg-btn-row">
-              <a href="#" class="btn btn-primary" onclick="return false;">Add to Celebration Plan</a>
+              <button type="button" class="btn btn-primary add-to-quote-btn">Add to My Quote</button>
               <a href="lets-talk.html" class="btn btn-outline">Request a Custom Quote</a>
             </div>
           </div>
         </div>
+      </div>
+      
+      <div class="custom-note reveal">
+        Can't find exactly what you're looking for? We'd love to create something just for you. <a href="lets-talk.html">Send us a custom inquiry</a> or message us directly on Facebook.
       </div>
     </div>
   </section>
 
   <section style="background:linear-gradient(160deg, var(--rose) 0%, var(--sand) 55%, var(--sage) 100%);">
     <div class="container reveal" style="text-align:center;max-width:600px;">
-      <span class="section-eyebrow" style="color:var(--charcoal);opacity:0.7;">Not Sure Where to Start?</span>
-      <h2 style="margin-top:10px;">Let's talk about your celebration.</h2>
+      <span class="section-eyebrow" style="color:var(--charcoal);opacity:0.7;">Ready to Move Forward?</span>
+      <h2 style="margin-top:10px;">Review your quote and tell us about your project.</h2>
       <div style="margin-top:24px;">
         <a href="lets-talk.html" class="btn btn-primary">Let's Talk</a>
       </div>
@@ -603,6 +656,22 @@
   <p>Pasig City, Philippines · Crafting Moments Worth Remembering</p>
   <nav><ul><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="product-gallery.html">Product Gallery</a></li><li><a href="event-gallery.html">Event Gallery</a></li><li><a href="booking-guide.html">Booking</a></li><li><a href="lets-talk.html">Let's Talk</a></li><li><a href="faqs.html">FAQs</a></li><li><a href="policies.html">Policies</a></li></ul></nav>
 </footer>
+
+<div class="quote-drawer-overlay" id="quoteDrawerOverlay">
+  <div class="quote-drawer">
+    <div class="quote-drawer-head">
+      <h3>My Quote</h3>
+      <button class="quote-drawer-close" aria-label="Close">✕</button>
+    </div>
+    <div class="quote-drawer-body"></div>
+    <div class="quote-drawer-foot">
+      <div class="qd-total"><span>Estimated Total</span><span class="qd-total-value">₱0</span></div>
+      <p class="qd-note">Final quotations may vary depending on customization, materials, project requirements, and final discussion.</p>
+      <a href="lets-talk.html" class="btn btn-primary">Proceed to Inquiry</a>
+    </div>
+  </div>
+</div>
+<button type="button" class="quote-fab"><span>My Quote</span><span class="quote-badge">0</span></button>
 
 <script src="js/main.js"></script>
 </body>

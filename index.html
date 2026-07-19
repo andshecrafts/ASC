@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>And She Crafts — Crafting Moments Worth Remembering</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="images/favicon/favicon-48x48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="images/favicon/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="images/favicon/android-chrome-512x512.png">
+<link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -11,8 +19,7 @@
 <header>
   <div class="nav-wrap">
     <a href="index.html" class="logo"><img src="images/asc-logo.png" alt="And She Crafts logo"> And She Crafts</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
-    <nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>    <nav>
       <ul id="navList">
         <li><a href="about.html">About</a></li>
         <li><a href="services.html">Services</a></li>
@@ -24,13 +31,14 @@
         <li><a href="policies.html">Policies</a></li>
       </ul>
     </nav>
+    <button type="button" class="quote-nav-btn">My Quote <span class="quote-badge">0</span></button>
   </div>
 </header>
 
 <main>
   <!-- 1. HERO -->
   <section style="padding-top:64px;padding-bottom:56px;background:radial-gradient(circle at 85% 15%, rgba(216,167,177,0.25), transparent 45%), radial-gradient(circle at 8% 85%, rgba(168,184,165,0.2), transparent 45%);">
-    <div class="container" style="display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:center;">
+    <div class="container split-2col" style="display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:center;">
       <div class="reveal in-view">
         <span class="section-eyebrow">Creative Studio · Pasig City</span>
         <h1 style="font-family:var(--serif);font-weight:600;font-size:clamp(2.4rem,5vw,3.8rem);line-height:1.08;margin:14px 0 22px;">Crafting moments <em style="font-style:italic;color:var(--rose-deep);">worth remembering.</em></h1>
@@ -56,7 +64,7 @@
         <h2>Complete creative solutions, under one roof.</h2>
         <p class="lead-text">Six categories, one creative studio — every detail crafted with intention.</p>
       </div>
-      <div class="card-grid reveal" style="grid-template-columns:repeat(3,1fr);">
+      <div class="card-grid reveal">
         <div class="info-card" style="padding:0;overflow:hidden;">
           <img src="images/svc-event-styling.jpg" alt="Event Solutions" style="width:100%;aspect-ratio:4/3;object-fit:cover;">
           <div style="padding:22px;"><h3>Event Solutions</h3><p>Styling, rentals, photobooths, and photography for every celebration.</p></div>
@@ -141,7 +149,7 @@
         <p class="lead-text" style="max-width:520px;margin-left:auto;margin-right:auto;">Whether you're planning a celebration, looking for personalized gifts, or building your business brand, we'd love to hear your ideas. Every celebration begins with a conversation.</p>
       </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:44px;">
+      <div class="split-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:44px;">
         <div class="info-card">
           <h3 style="margin-bottom:4px;">Before You Reach Out</h3>
           <p style="font-size:0.86rem;color:#6b6560;margin-bottom:4px;">To help us prepare your quotation, you may include:</p>
@@ -192,6 +200,22 @@
   </nav>
 </footer>
 
-<script src="js/main.js"></script>
-</body>
+
+<div class="quote-drawer-overlay" id="quoteDrawerOverlay">
+  <div class="quote-drawer">
+    <div class="quote-drawer-head">
+      <h3>My Quote</h3>
+      <button class="quote-drawer-close" aria-label="Close">✕</button>
+    </div>
+    <div class="quote-drawer-body"></div>
+    <div class="quote-drawer-foot">
+      <div class="qd-total"><span>Estimated Total</span><span class="qd-total-value">₱0</span></div>
+      <p class="qd-note">Final quotations may vary depending on customization, materials, project requirements, and final discussion.</p>
+      <a href="lets-talk.html" class="btn btn-primary">Proceed to Inquiry</a>
+    </div>
+  </div>
+</div>
+<button type="button" class="quote-fab"><span>My Quote</span><span class="quote-badge">0</span></button>
+
+<script src="js/main.js"></script></body>
 </html>

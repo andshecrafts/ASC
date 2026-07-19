@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Booking Guide — And She Crafts</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="images/favicon/favicon-48x48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="images/favicon/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="images/favicon/android-chrome-512x512.png">
+<link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -11,8 +19,8 @@
 <header>
   <div class="nav-wrap">
     <a href="index.html" class="logo"><img src="images/asc-logo.png" alt="And She Crafts logo"> And She Crafts</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
-    <nav><ul id="navList"><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="product-gallery.html">Product Gallery</a></li><li><a href="event-gallery.html">Event Gallery</a></li><li><a href="booking-guide.html" class="active">Booking</a></li><li><a href="lets-talk.html">Let's Talk</a></li><li><a href="faqs.html">FAQs</a></li><li><a href="policies.html">Policies</a></li></ul></nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>    <nav><ul id="navList"><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="product-gallery.html">Product Gallery</a></li><li><a href="event-gallery.html">Event Gallery</a></li><li><a href="booking-guide.html" class="active">Booking</a></li><li><a href="lets-talk.html">Let's Talk</a></li><li><a href="faqs.html">FAQs</a></li><li><a href="policies.html">Policies</a></li></ul></nav>
+    <button type="button" class="quote-nav-btn">My Quote <span class="quote-badge">0</span></button>
   </div>
 </header>
 
@@ -28,33 +36,39 @@
     <div class="container">
       <div class="section-head reveal">
         <span class="section-eyebrow">How Booking Works</span>
-        <h2>From inquiry to celebration day.</h2>
+        <h2>From browsing to celebration day.</h2>
+        <p class="lead-text">Booking with us has always started with a conversation — now there's an easier way to walk into that conversation prepared.</p>
       </div>
       
         <div class="reveal" style="display:grid;grid-template-columns:50px 1fr;gap:20px;padding:22px 0;border-bottom:1px solid rgba(63,58,54,0.1);">
           <span style="font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--rose-deep);">01</span>
-          <div><h3 style="font-family:var(--serif);font-size:1.2rem;margin-bottom:6px;">Send Us Your Inquiry</h3><p style="color:#5b5551;font-size:0.94rem;">Message us through Facebook, Instagram, or email to start the conversation.</p></div>
+          <div><h3 style="font-family:var(--serif);font-size:1.2rem;margin-bottom:6px;">Browse Services</h3><p style="color:#5b5551;font-size:0.94rem;">Explore the catalog at your own pace — photos, packages, and pricing for every category, whether you're planning a celebration or a business project.</p></div>
         </div>
         <div class="reveal" style="display:grid;grid-template-columns:50px 1fr;gap:20px;padding:22px 0;border-bottom:1px solid rgba(63,58,54,0.1);">
           <span style="font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--rose-deep);">02</span>
-          <div><h3 style="font-family:var(--serif);font-size:1.2rem;margin-bottom:6px;">Tell Us About Your Celebration</h3><p style="color:#5b5551;font-size:0.94rem;">Share the details so we can prepare an accurate quotation.</p><ul class="simple-checklist" style="margin-top:12px;max-width:420px;"><li>Occasion</li><li>Event Date</li><li>Venue</li><li>Estimated Guest Count</li><li>Services Needed</li><li>Inspiration Photos</li><li>Budget (Optional)</li></ul></div>
+          <div><h3 style="font-family:var(--serif);font-size:1.2rem;margin-bottom:6px;">Build My Quote</h3><p style="color:#5b5551;font-size:0.94rem;">Add anything that catches your eye to My Quote as you browse — nothing here commits you to a thing. Think of it as thinking out loud, with photos.</p></div>
         </div>
         <div class="reveal" style="display:grid;grid-template-columns:50px 1fr;gap:20px;padding:22px 0;border-bottom:1px solid rgba(63,58,54,0.1);">
           <span style="font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--rose-deep);">03</span>
-          <div><h3 style="font-family:var(--serif);font-size:1.2rem;margin-bottom:6px;">Receive Your Personalized Quotation</h3><p style="color:#5b5551;font-size:0.94rem;">We'll recommend the right services based on your vision, guest count, and budget.</p></div>
+          <div><h3 style="font-family:var(--serif);font-size:1.2rem;margin-bottom:6px;">Tell Us About Your Project</h3><p style="color:#5b5551;font-size:0.94rem;">Everything in My Quote carries over automatically — just fill in a few more details so we can prepare an accurate proposal.</p><ul class="simple-checklist" style="margin-top:12px;max-width:420px;"><li>Occasion or Project Type</li><li>Event or Delivery Date</li><li>Venue or Location</li><li>Estimated Guest Count or Quantity</li><li>Inspiration Photos</li><li>Budget (Optional)</li></ul></div>
         </div>
         <div class="reveal" style="display:grid;grid-template-columns:50px 1fr;gap:20px;padding:22px 0;border-bottom:1px solid rgba(63,58,54,0.1);">
           <span style="font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--rose-deep);">04</span>
-          <div><h3 style="font-family:var(--serif);font-size:1.2rem;margin-bottom:6px;">Confirm Your Booking</h3><p style="color:#5b5551;font-size:0.94rem;">A reservation fee secures your date and begins the planning process.</p></div>
+          <div><h3 style="font-family:var(--serif);font-size:1.2rem;margin-bottom:6px;">Receive Personalized Proposal</h3><p style="color:#5b5551;font-size:0.94rem;">We'll refine what you've selected — or recommend the right services from scratch — based on your vision, quantities, and budget.</p></div>
         </div>
         <div class="reveal" style="display:grid;grid-template-columns:50px 1fr;gap:20px;padding:22px 0;border-bottom:1px solid rgba(63,58,54,0.1);">
           <span style="font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--rose-deep);">05</span>
-          <div><h3 style="font-family:var(--serif);font-size:1.2rem;margin-bottom:6px;">We Begin Planning &amp; Crafting</h3><p style="color:#5b5551;font-size:0.94rem;">Design, sourcing, and production happen here, with updates along the way.</p></div>
+          <div><h3 style="font-family:var(--serif);font-size:1.2rem;margin-bottom:6px;">Reservation Fee</h3><p style="color:#5b5551;font-size:0.94rem;">A reservation fee secures your date or slot in our production schedule.</p></div>
         </div>
         <div class="reveal" style="display:grid;grid-template-columns:50px 1fr;gap:20px;padding:22px 0;border-bottom:1px solid rgba(63,58,54,0.1);">
           <span style="font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--rose-deep);">06</span>
-          <div><h3 style="font-family:var(--serif);font-size:1.2rem;margin-bottom:6px;">Celebrate Your Special Day with ASC</h3><p style="color:#5b5551;font-size:0.94rem;">We deliver, set up, and — if booked — stay on-site to coordinate.</p></div>
+          <div><h3 style="font-family:var(--serif);font-size:1.2rem;margin-bottom:6px;">Project Confirmation</h3><p style="color:#5b5551;font-size:0.94rem;">Your booking is confirmed, and we begin planning and crafting — with updates along the way until it's time to celebrate.</p></div>
         </div>
+
+      <div style="text-align:center;margin-top:28px;">
+        <a href="services.html" class="btn btn-outline">Start With Our Services</a>
+      </div>
+
 
       <div class="section-head reveal" style="margin-top:56px;">
         <span class="section-eyebrow">This Is What It Feels Like to Work With Us</span>
@@ -99,6 +113,22 @@
   <nav><ul><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="product-gallery.html">Product Gallery</a></li><li><a href="event-gallery.html">Event Gallery</a></li><li><a href="booking-guide.html">Booking</a></li><li><a href="lets-talk.html">Let's Talk</a></li><li><a href="faqs.html">FAQs</a></li><li><a href="policies.html">Policies</a></li></ul></nav>
 </footer>
 
-<script src="js/main.js"></script>
-</body>
+
+<div class="quote-drawer-overlay" id="quoteDrawerOverlay">
+  <div class="quote-drawer">
+    <div class="quote-drawer-head">
+      <h3>My Quote</h3>
+      <button class="quote-drawer-close" aria-label="Close">✕</button>
+    </div>
+    <div class="quote-drawer-body"></div>
+    <div class="quote-drawer-foot">
+      <div class="qd-total"><span>Estimated Total</span><span class="qd-total-value">₱0</span></div>
+      <p class="qd-note">Final quotations may vary depending on customization, materials, project requirements, and final discussion.</p>
+      <a href="lets-talk.html" class="btn btn-primary">Proceed to Inquiry</a>
+    </div>
+  </div>
+</div>
+<button type="button" class="quote-fab"><span>My Quote</span><span class="quote-badge">0</span></button>
+
+<script src="js/main.js"></script></body>
 </html>

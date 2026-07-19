@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Let's Talk — And She Crafts</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="images/favicon/favicon-48x48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="images/favicon/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="images/favicon/android-chrome-512x512.png">
+<link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -13,6 +21,7 @@
     <a href="index.html" class="logo"><img src="images/asc-logo.png" alt="And She Crafts logo"> And She Crafts</a>
     <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
     <nav><ul id="navList"><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="product-gallery.html">Product Gallery</a></li><li><a href="event-gallery.html">Event Gallery</a></li><li><a href="booking-guide.html">Booking</a></li><li><a href="lets-talk.html" class="active">Let's Talk</a></li><li><a href="faqs.html">FAQs</a></li><li><a href="policies.html">Policies</a></li></ul></nav>
+    <button type="button" class="quote-nav-btn">My Quote <span class="quote-badge">0</span></button>
   </div>
 </header>
 
@@ -20,9 +29,32 @@
   <span class="eyebrow">06 — Let's Talk</span>
   <h1>Let's Create Something Meaningful Together</h1>
   <p>Every celebration begins with a conversation.</p>
+  <div class="progress-steps">
+    <div class="progress-step done"><span class="p-dot">✓</span><span class="p-text">Explore Services</span></div>
+    <span class="progress-sep">—</span>
+    <div class="progress-step done"><span class="p-dot">✓</span><span class="p-text">Build My Quote</span></div>
+    <span class="progress-sep">—</span>
+    <div class="progress-step active"><span class="p-dot">3</span><span class="p-text">Tell Us About Your Project</span></div>
+    <span class="progress-sep">—</span>
+    <div class="progress-step"><span class="p-dot">4</span><span class="p-text">Receive Your Personalized Quote</span></div>
+  </div>
 </div>
 
 <main>
+
+  <section id="quoteReviewSection" style="padding-top:20px;display:none;">
+    <div class="container" style="max-width:900px;">
+      <div class="quote-summary-box">
+        <span class="d-label">Your Quote</span>
+        <ul id="quoteReviewList" style="list-style:none;padding:0;margin-top:12px;"></ul>
+        <div class="quote-total-line" style="margin-top:14px;">
+          <span>Estimated Starting Total</span>
+          <span id="quoteReviewTotal">₱0</span>
+        </div>
+        <p style="font-size:0.82rem;color:#6b6560;margin-top:12px;">Final quotations may vary depending on customization, materials, project requirements, and final discussion.</p>
+      </div>
+    </div>
+  </section>
 
   <section style="padding-top:20px;">
     <div class="container" style="max-width:900px;">
@@ -30,9 +62,9 @@
         <p class="lead-text">Whether you're planning a celebration, looking for personalized gifts, or building your business brand, we'd love to hear your ideas.</p>
       </div>
 
-      <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:40px;margin-top:20px;align-items:start;">
+      <div class="split-2col" style="display:grid;grid-template-columns:1.2fr 1fr;gap:40px;margin-top:20px;align-items:start;">
         <div class="info-card reveal">
-          <h3 style="margin-bottom:18px;">Tell Us About Your Celebration</h3>
+          <h3 style="margin-bottom:18px;">Tell Us About Your Project</h3>
           <form id="inquiryForm" class="inquiry-form">
             <div class="form-row-2">
               <div><label>Name</label><input type="text" name="name" required></div>
@@ -89,6 +121,12 @@
     </div>
 
     <div class="container reveal" style="max-width:600px;">
+      <div class="custom-note">
+        Can't find exactly what you're looking for? We'd love to create something just for you. Send us a custom inquiry above, or message us directly on Facebook.
+      </div>
+    </div>
+
+    <div class="container reveal" style="max-width:600px;">
       <div class="continue-strip">
         <p>Still have questions before reaching out?</p>
         <a href="faqs.html" class="btn btn-primary">Frequently Asked Questions</a>
@@ -103,6 +141,23 @@
   <p>Pasig City, Philippines · Crafting Moments Worth Remembering</p>
   <nav><ul><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="product-gallery.html">Product Gallery</a></li><li><a href="event-gallery.html">Event Gallery</a></li><li><a href="booking-guide.html">Booking</a></li><li><a href="lets-talk.html">Let's Talk</a></li><li><a href="faqs.html">FAQs</a></li><li><a href="policies.html">Policies</a></li></ul></nav>
 </footer>
+
+
+<div class="quote-drawer-overlay" id="quoteDrawerOverlay">
+  <div class="quote-drawer">
+    <div class="quote-drawer-head">
+      <h3>My Quote</h3>
+      <button class="quote-drawer-close" aria-label="Close">✕</button>
+    </div>
+    <div class="quote-drawer-body"></div>
+    <div class="quote-drawer-foot">
+      <div class="qd-total"><span>Estimated Total</span><span class="qd-total-value">₱0</span></div>
+      <p class="qd-note">Final quotations may vary depending on customization, materials, project requirements, and final discussion.</p>
+      <a href="lets-talk.html" class="btn btn-primary">Proceed to Inquiry</a>
+    </div>
+  </div>
+</div>
+<button type="button" class="quote-fab"><span>My Quote</span><span class="quote-badge">0</span></button>
 
 <script src="js/main.js"></script>
 </body>
