@@ -36,11 +36,24 @@
     <span class="progress-sep">—</span>
     <div class="progress-step active"><span class="p-dot">3</span><span class="p-text">Tell Us About Your Project</span></div>
     <span class="progress-sep">—</span>
-    <div class="progress-step"><span class="p-dot">4</span><span class="p-text">Receive Your Personalized Quote</span></div>
+    <div class="progress-step"><span class="p-dot">4</span><span class="p-text">Inquiry Sent</span></div>
   </div>
 </div>
 
-<main>
+<div id="inquirySuccess" class="container" style="display:none;max-width:640px;padding:60px 20px;text-align:center;">
+  <div class="info-card" style="padding:44px 32px;">
+    <span style="font-size:2.4rem;display:block;margin-bottom:14px;">🌸</span>
+    <h2 style="margin-bottom:16px;">Thank you for contacting And She Crafts!</h2>
+    <p style="color:#5b5551;font-size:1rem;line-height:1.7;">Your inquiry has been successfully sent.<br><br>
+    Our team will carefully review your request and prepare a personalized quotation or proposal.<br><br>
+    Please keep an eye on your email, as we'll get back to you as soon as possible.</p>
+    <div style="margin-top:28px;">
+      <a href="index.html" class="btn btn-outline">Back to Home</a>
+    </div>
+  </div>
+</div>
+
+<main id="inquiryMainContent">
 
   <section id="quoteReviewSection" style="padding-top:20px;display:none;">
     <div class="container" style="max-width:900px;">
@@ -72,14 +85,14 @@
             </div>
             <div class="form-row-2">
               <div><label>Contact Number (optional)</label><input type="text" name="contact"></div>
-              <div><label>Occasion</label><input type="text" name="occasion"></div>
+              <div><label>Occasion (Optional)</label><input type="text" name="occasion"></div>
             </div>
             <div class="form-row-2">
-              <div><label>Event Date</label><input type="text" name="eventdate" placeholder="e.g. August 2026"></div>
-              <div><label>Venue / Location</label><input type="text" name="venue"></div>
+              <div><label>Event Date</label><input type="date" name="eventdate"></div>
+              <div><label>Venue / Location</label><input type="text" name="venue" placeholder="Please enter your City or Barangay"></div>
             </div>
             <div class="form-row-2">
-              <div><label>Estimated Guest Count</label><input type="text" name="guests"></div>
+              <div><label>Estimated Guest Count</label><input type="number" name="guests" min="1" step="1" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 50"></div>
               <div><label>Services You're Interested In</label><input type="text" name="services" placeholder="e.g. Styling, Invitations"></div>
             </div>
             <div><label>Theme or Inspiration Notes</label><input type="text" name="theme" placeholder="Describe your theme, colors, or ideas"></div>
@@ -95,7 +108,7 @@
               <div><label>Other Special Requests</label><input type="text" name="requests"></div>
             </div>
             <button type="submit" class="btn btn-primary" style="margin-top:8px;justify-self:start;">Send Inquiry</button>
-            <p style="font-size:0.78rem;color:#8a8580;margin-top:4px;">This opens your email app with everything filled in, ready to send to us.</p>
+            <p id="inquiryFormNote" style="font-size:0.78rem;color:#8a8580;margin-top:4px;">Your inquiry is sent directly to us — you'll stay right here on the site.</p>
           </form>
         </div>
 
@@ -159,6 +172,28 @@
 </div>
 <button type="button" class="quote-fab"><span>My Quote</span><span class="quote-badge">0</span></button>
 
+<!--
+  EmailJS lets this form send directly to andshecraftsph@gmail.com without opening
+  an email app. To activate it:
+  1. Create a free account at https://www.emailjs.com
+  2. Add an Email Service (e.g. connect your Gmail) — copy the "Service ID"
+  3. Create an Email Template with fields matching the ones sent below — copy the "Template ID"
+  4. Copy your "Public Key" from Account > API Keys
+  5. Replace the three placeholder values below.
+  Until real values are in place, the form automatically falls back to opening
+  the visitor's email app instead (same as before) — it will not silently fail.
+-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  window.ASC_EMAILJS_CONFIG = {
+    publicKey: "YOUR_EMAILJS_PUBLIC_KEY",
+    serviceId: "YOUR_EMAILJS_SERVICE_ID",
+    templateId: "YOUR_EMAILJS_TEMPLATE_ID"
+  };
+  if (window.emailjs && window.ASC_EMAILJS_CONFIG.publicKey.indexOf("YOUR_") !== 0) {
+    emailjs.init({ publicKey: window.ASC_EMAILJS_CONFIG.publicKey });
+  }
+</script>
 <script src="js/main.js"></script>
 </body>
 </html>
