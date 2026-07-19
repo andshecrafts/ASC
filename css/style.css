@@ -297,9 +297,21 @@ footer nav a:hover{color:var(--rose);}
 .progress-step.done .p-dot{background:var(--sage);}
 .progress-step.done{color:var(--sage);}
 .progress-sep{width:26px;height:1px;background:#d8d2cc;margin:0 12px;}
+
+/* Mobile: switch to a compact 2x2 grid so labels stay visible instead of being hidden */
 @media (max-width:700px){
-  .progress-step .p-text{display:none;}
-  .progress-sep{width:14px;margin:0 6px;}
+  .progress-steps{
+    display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;
+    max-width:340px;margin:0 auto;padding:18px 12px 6px;
+  }
+  .progress-step{font-size:0.72rem;gap:7px;}
+  .progress-step .p-text{display:inline;line-height:1.25;}
+  .progress-sep{display:none;}
+}
+@media (max-width:380px){
+  .progress-steps{grid-template-columns:1fr 1fr;gap:8px 10px;max-width:300px;}
+  .progress-step{font-size:0.68rem;}
+  .progress-step .p-dot{width:18px;height:18px;font-size:0.62rem;}
 }
 
 /* Your Quote review (Let's Talk page) */
