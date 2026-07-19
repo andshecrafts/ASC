@@ -329,8 +329,42 @@ document.addEventListener('DOMContentLoaded', () => {
     lightbox.addEventListener('click', () => lightbox.classList.remove('open'));
   }
 
-  /* ---------- Inquiry form: compose email, include quote items ---------- */
+  /* ---------- Inquiry form: send via EmailJS if configured, else fall back to mailto ---------- */
   const inquiryForm = document.getElementById('inquiryForm');
+
+  function emailJsIsConfigured() {
+    const cfg = window.ASC_EMAILJS_CONFIG;
+    return !!(window.emailjs && cfg && [cfg.publicKey, cfg.serviceId, cfg.templateId].every(v => v && v.indexOf('YOUR_') !== 0));
+  }
+
+  const inquiryNote = document.getElementById('inquiryFormNote');
+  if (inquiryNote) {
+    inquiryNote.textContent = emailJsIsConfigured()
+      ? "Your inquiry is sent directly to us — you'll stay right here on the site."
+      : 'This opens your email app with everything filled in, ready to send to us.';
+  }
+
+  function showInquirySuccess() {
+    const mainContent = document.getElementById('inquiryMainContent');
+    const successPanel = document.getElementById('inquirySuccess');
+    if (mainContent) mainContent.style.display = 'none';
+    if (successPanel) successPanel.style.display = 'block';
+
+    // Mark the progress indicator as fully complete
+    document.querySelectorAll('.progress-step').forEach((step, i, all) => {
+      if (i === all.length - 1) {
+        step.classList.add('done');
+        step.classList.remove('active');
+        step.querySelector('.p-dot').textContent = '✓';
+      }
+    });
+
+    // Clear My Quote — the inquiry has been submitted
+    ASCQuote.saveQuote([]);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   if (inquiryForm) {
     inquiryForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -342,34 +376,73 @@ document.addEventListener('DOMContentLoaded', () => {
         fileNote = `${names.join(', ')} — please re-attach these to your email, or send them to us on Facebook Messenger, since this form can't carry file attachments automatically.`;
       }
 
-      const lines = [
-        `Name: ${f.name.value}`,
-        `Email: ${f.email.value}`,
-        `Contact Number: ${f.contact.value}`,
-        `Occasion: ${f.occasion.value}`,
-        `Event Date: ${f.eventdate.value}`,
-        `Venue / Location: ${f.venue.value}`,
-        `Estimated Guest Count: ${f.guests.value}`,
-        `Services Interested In: ${f.services.value}`,
-        `Theme / Inspiration (notes): ${f.theme.value}`,
-        `Theme / Inspiration Photos: ${fileNote}`,
-        `Preferred Budget: ${f.budget.value}`,
-        `Other Requests: ${f.requests.value}`,
-      ];
-
       const quoteItems = ASCQuote.getQuote();
+      let quoteText = 'None selected';
       if (quoteItems.length) {
-        lines.push('', '--- Selected from My Quote ---');
-        quoteItems.forEach(item => {
-          lines.push(`${item.name} — ${item.package}${item.hasQty ? ` × ${item.qty || 1}` : ''} (${item.priceDisplay})`);
-        });
         const { total, hasUnknown } = ASCQuote.estimateTotal(quoteItems);
-        lines.push(`Estimated Starting Total: ₱${total.toLocaleString()}${hasUnknown ? ' +' : ''}`);
+        quoteText = quoteItems.map(item =>
+          `${item.name} — ${item.package}${item.hasQty ? ` × ${item.qty || 1}` : ''} (${item.priceDisplay})`
+        ).join('\n') + `\nEstimated Starting Total: ₱${total.toLocaleString()}${hasUnknown ? ' +' : ''}`;
       }
 
-      const body = encodeURIComponent(lines.join('\n'));
-      const subject = encodeURIComponent(`Inquiry from ${f.name.value || 'Website Visitor'}`);
-      window.location.href = `mailto:andshecraftsph@gmail.com?subject=${subject}&body=${body}`;
+      const fields = {
+        name: f.name.value,
+        email: f.email.value,
+        contact: f.contact.value,
+        occasion: f.occasion.value,
+        eventdate: f.eventdate.value,
+        venue: f.venue.value,
+        guests: f.guests.value,
+        services: f.services.value,
+        theme: f.theme.value,
+        themefiles: fileNote,
+        budget: f.budget.value,
+        requests: f.requests.value,
+        quote_items: quoteText,
+      };
+
+      if (emailJsIsConfigured()) {
+        const submitBtn = inquiryForm.querySelector('button[type="submit"]');
+        const originalLabel = submitBtn.textContent;
+        submitBtn.textContent = 'Sending…';
+        submitBtn.disabled = true;
+
+        emailjs.send(window.ASC_EMAILJS_CONFIG.serviceId, window.ASC_EMAILJS_CONFIG.templateId, fields)
+          .then(() => {
+            showInquirySuccess();
+          })
+          .catch((err) => {
+            console.error('EmailJS send failed, falling back to email app:', err);
+            submitBtn.textContent = originalLabel;
+            submitBtn.disabled = false;
+            sendViaMailto(fields);
+          });
+      } else {
+        sendViaMailto(fields);
+      }
     });
+  }
+
+  function sendViaMailto(fields) {
+    const lines = [
+      `Name: ${fields.name}`,
+      `Email: ${fields.email}`,
+      `Contact Number: ${fields.contact}`,
+      `Occasion: ${fields.occasion}`,
+      `Event Date: ${fields.eventdate}`,
+      `Venue / Location: ${fields.venue}`,
+      `Estimated Guest Count: ${fields.guests}`,
+      `Services Interested In: ${fields.services}`,
+      `Theme / Inspiration (notes): ${fields.theme}`,
+      `Theme / Inspiration Photos: ${fields.themefiles}`,
+      `Preferred Budget: ${fields.budget}`,
+      `Other Requests: ${fields.requests}`,
+    ];
+    if (fields.quote_items && fields.quote_items !== 'None selected') {
+      lines.push('', '--- Selected from My Quote ---', fields.quote_items);
+    }
+    const body = encodeURIComponent(lines.join('\n'));
+    const subject = encodeURIComponent(`Inquiry from ${fields.name || 'Website Visitor'}`);
+    window.location.href = `mailto:andshecraftsph@gmail.com?subject=${subject}&body=${body}`;
   }
 });
