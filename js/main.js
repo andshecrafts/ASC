@@ -462,4 +462,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const subject = encodeURIComponent(`Inquiry from ${fields.name || 'Website Visitor'}`);
     window.location.href = `mailto:andshecraftsph@gmail.com?subject=${subject}&body=${body}`;
   }
+
+  /* ---------- Story collage lightbox (Event Gallery) ---------- */
+  const storyLightbox = document.getElementById('storyLightbox');
+  if (storyLightbox) {
+    const tiles = Array.from(document.querySelectorAll('.story-tile img'));
+    const lbImg = storyLightbox.querySelector('img');
+    const counter = storyLightbox.querySelector('.lb-counter');
+    let current = 0;
+
+    function openAt(i) {
+      current = i;
+      lbImg.src = tiles[i].src;
+      lbImg.alt = tiles[i].alt;
+      counter.textContent = `${i + 1} / ${tiles.length}`;
+      storyLightbox.classList.add('open');
+    }
+    function closeLb() { storyLightbox.classList.remove('open'); }
+    function next() { openAt((current + 1) % tiles.length); }
+    function prev() { openAt((current - 1 + tiles.length) % tiles.length); }
+
+    tiles.forEach((img, i) => img.addEventListener('click', () => openAt(i)));
+    storyLightbox.querySelector('.lb-close').addEventListener('click', closeLb);
+    storyLightbox.querySelector('.lb-next').addEventListener('click', next);
+    storyLightbox.querySelector('.lb-prev').addEventListener('click', prev);
+    storyLightbox.addEventListener('click', (e) => { if (e.target === storyLightbox) closeLb(); });
+
+    document.addEventListener('keydown', (e) => {
+      if (!storyLightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLb();
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft') prev();
+    });
+
+    // Touch swipe support
+    let touchStartX = 0;
+    storyLightbox.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+    storyLightbox.addEventListener('touchend', (e) => {
+      const diff = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(diff) > 40) diff > 0 ? prev() : next();
+    }, { passive: true });
+  }
 });
