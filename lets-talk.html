@@ -42,7 +42,7 @@
 
 <div id="inquirySuccess" class="container" style="display:none;max-width:640px;padding:60px 20px;text-align:center;">
   <div class="info-card" style="padding:44px 32px;">
-    <span style="font-size:2.4rem;display:block;margin-bottom:14px;">🌸</span>
+    <div class="success-icon">✓</div>
     <h2 style="margin-bottom:16px;">Thank you for contacting And She Crafts!</h2>
     <p style="color:#5b5551;font-size:1rem;line-height:1.7;">Your inquiry has been successfully sent.<br><br>
     Our team will carefully review your request and prepare a personalized quotation or proposal.<br><br>
@@ -97,12 +97,13 @@
             </div>
             <div><label>Theme or Inspiration Notes</label><input type="text" name="theme" placeholder="Describe your theme, colors, or ideas"></div>
             <div>
-              <label>Theme or Inspiration Photos</label>
+              <label>Theme or Inspiration Photo</label>
               <div class="file-upload">
-                <input type="file" name="themefiles" accept="image/*" multiple>
-                <p style="font-size:0.72rem;color:#8a8580;margin-top:6px;">Note: this form can't send file attachments automatically — after submitting, please re-attach these photos to the email, or send them to us on Facebook Messenger.</p>
+                <input type="file" name="themefiles" accept="image/*">
+                <p style="font-size:0.72rem;color:#8a8580;margin-top:6px;">One photo works best for a reliable attachment. Have more than one? Send extras on Facebook Messenger.</p>
               </div>
             </div>
+            <input type="hidden" name="quote_items" id="quoteItemsHidden">
             <div class="form-row-2">
               <div><label>Preferred Budget (Optional)</label><input type="text" name="budget"></div>
               <div><label>Other Special Requests</label><input type="text" name="requests"></div>

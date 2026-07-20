@@ -144,6 +144,7 @@ footer nav a:hover{color:var(--rose);}
 .svc-detail-panel{display:none;background:rgba(216,167,177,0.08);border-radius:6px;padding:32px;margin:20px 0 44px;}
 .svc-detail-panel.open{display:grid;grid-template-columns:1fr 1.3fr;gap:32px;}
 @media (max-width:760px){.svc-detail-panel.open{grid-template-columns:1fr;padding:22px;}}
+.svc-row > .svc-detail-panel{grid-column:1 / -1;}
 .svc-detail-panel img{width:100%;border-radius:4px 30px 4px 30px;aspect-ratio:4/3;object-fit:cover;}
 .svc-detail-panel h3{font-family:var(--serif);font-size:1.6rem;font-weight:600;margin-bottom:10px;}
 .svc-detail-panel .d-field{margin-bottom:14px;}
@@ -321,6 +322,13 @@ footer nav a:hover{color:var(--rose);}
 /* Custom-inquiry note */
 .custom-note{background:rgba(168,184,165,0.1);border:1px solid rgba(168,184,165,0.25);border-radius:6px;padding:18px 24px;font-size:0.9rem;color:#5b5551;text-align:center;margin-top:28px;}
 .custom-note a{color:var(--rose-deep);font-weight:600;text-decoration:underline;}
+
+.success-icon{
+  width:60px;height:60px;border-radius:50%;
+  background:var(--sage);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;font-weight:700;margin:0 auto 18px;
+}
 
 /* ============ MOBILE LAYOUT FIXES (V9) ============ */
 /* Any two-column grid using this class collapses to one column on mobile,

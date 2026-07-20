@@ -81,7 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.svc-card').forEach(card => {
     card.addEventListener('click', () => {
       const row = card.closest('.svc-row');
-      const panel = row.nextElementSibling; // .svc-detail-panel right after the row
+      const categoryBlock = card.closest('.category-block');
+      // Look up the panel by category, not by DOM position — its position moves (see below),
+      // so row.nextElementSibling can't be trusted after the first interaction.
+      const panel = categoryBlock.querySelector('.svc-detail-panel');
 
       const alreadyActive = card.classList.contains('active');
       row.querySelectorAll('.svc-card').forEach(c => c.classList.remove('active'));
@@ -92,6 +95,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       card.classList.add('active');
+
+      // On phones/tablets, cards stack in one column, so a panel placed after the whole
+      // row can end up far below the card that was actually clicked. Move it to sit right
+      // after that card instead. On desktop, keep it below the full row as before.
+      const isNarrowScreen = window.matchMedia('(max-width: 900px)').matches;
+      if (isNarrowScreen) {
+        card.insertAdjacentElement('afterend', panel);
+      } else {
+        row.insertAdjacentElement('afterend', panel);
+      }
+
       const packages = JSON.parse(card.dataset.packages);
       panel.dataset.serviceName = card.dataset.name;
       panel.dataset.packagesJson = card.dataset.packages;
@@ -350,13 +364,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mainContent) mainContent.style.display = 'none';
     if (successPanel) successPanel.style.display = 'block';
 
-    // Mark the progress indicator as fully complete
-    document.querySelectorAll('.progress-step').forEach((step, i, all) => {
-      if (i === all.length - 1) {
-        step.classList.add('done');
-        step.classList.remove('active');
-        step.querySelector('.p-dot').textContent = '✓';
-      }
+    // Mark the entire progress indicator as complete — including "Tell Us About Your Project"
+    document.querySelectorAll('.progress-step').forEach((step) => {
+      step.classList.add('done');
+      step.classList.remove('active');
+      step.querySelector('.p-dot').textContent = '✓';
     });
 
     // Clear My Quote — the inquiry has been submitted
@@ -372,8 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const fileInput = f.themefiles;
       let fileNote = 'None attached';
       if (fileInput && fileInput.files.length) {
-        const names = Array.from(fileInput.files).map(file => file.name);
-        fileNote = `${names.join(', ')} — please re-attach these to your email, or send them to us on Facebook Messenger, since this form can't carry file attachments automatically.`;
+        fileNote = `${fileInput.files[0].name} (attached)`;
       }
 
       const quoteItems = ASCQuote.getQuote();
@@ -384,6 +395,10 @@ document.addEventListener('DOMContentLoaded', () => {
           `${item.name} — ${item.package}${item.hasQty ? ` × ${item.qty || 1}` : ''} (${item.priceDisplay})`
         ).join('\n') + `\nEstimated Starting Total: ₱${total.toLocaleString()}${hasUnknown ? ' +' : ''}`;
       }
+
+      // Populate the hidden field so emailjs.sendForm() (which reads the live form) includes it
+      const quoteHiddenInput = document.getElementById('quoteItemsHidden');
+      if (quoteHiddenInput) quoteHiddenInput.value = quoteText;
 
       const fields = {
         name: f.name.value,
@@ -407,7 +422,9 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.textContent = 'Sending…';
         submitBtn.disabled = true;
 
-        emailjs.send(window.ASC_EMAILJS_CONFIG.serviceId, window.ASC_EMAILJS_CONFIG.templateId, fields)
+        // sendForm reads the live <form> directly, which is what lets the file input
+        // actually travel as a real email attachment (plain .send() with a data object cannot do this).
+        emailjs.sendForm(window.ASC_EMAILJS_CONFIG.serviceId, window.ASC_EMAILJS_CONFIG.templateId, inquiryForm)
           .then(() => {
             showInquirySuccess();
           })
@@ -434,7 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `Estimated Guest Count: ${fields.guests}`,
       `Services Interested In: ${fields.services}`,
       `Theme / Inspiration (notes): ${fields.theme}`,
-      `Theme / Inspiration Photos: ${fields.themefiles}`,
+      `Theme / Inspiration Photo: ${fields.themefiles === 'None attached' ? 'None attached' : fields.themefiles + ' — please re-attach this in your email app, as this fallback method can\'t carry it automatically.'}`,
       `Preferred Budget: ${fields.budget}`,
       `Other Requests: ${fields.requests}`,
     ];
