@@ -308,41 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ---------- Story galleries: slideshow with prev/next + auto-rotate ---------- */
-  document.querySelectorAll('.story-slideshow').forEach(slideshow => {
-    const imgs = slideshow.querySelectorAll('img');
-    if (!imgs.length) return;
-    let idx = 0;
-    imgs[0].classList.add('active');
-
-    function show(newIdx) {
-      imgs[idx].classList.remove('active');
-      idx = (newIdx + imgs.length) % imgs.length;
-      imgs[idx].classList.add('active');
-    }
-
-    let timer = setInterval(() => show(idx + 1), 5000);
-    function resetTimer() { clearInterval(timer); timer = setInterval(() => show(idx + 1), 5000); }
-
-    const prevBtn = slideshow.querySelector('.slide-arrow.prev');
-    const nextBtn = slideshow.querySelector('.slide-arrow.next');
-    if (prevBtn) prevBtn.addEventListener('click', () => { show(idx - 1); resetTimer(); });
-    if (nextBtn) nextBtn.addEventListener('click', () => { show(idx + 1); resetTimer(); });
-  });
-
-  /* ---------- Thumbnail lightbox ---------- */
-  const lightbox = document.getElementById('lightbox');
-  if (lightbox) {
-    document.querySelectorAll('.story-thumbs img, .story-slideshow img').forEach(img => {
-      img.addEventListener('click', () => {
-        lightbox.querySelector('img').src = img.src;
-        lightbox.querySelector('img').alt = img.alt;
-        lightbox.classList.add('open');
-      });
-    });
-    lightbox.addEventListener('click', () => lightbox.classList.remove('open'));
-  }
-
   /* ---------- Inquiry form: send via EmailJS if configured, else fall back to mailto ---------- */
   const inquiryForm = document.getElementById('inquiryForm');
 
