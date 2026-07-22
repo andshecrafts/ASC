@@ -109,9 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         row.insertAdjacentElement('afterend', panel);
       }
 
-      const packages = JSON.parse(card.dataset.packages);
       panel.dataset.serviceName = card.dataset.name;
-      panel.dataset.packagesJson = card.dataset.packages;
       panel.dataset.hasQty = card.dataset.hasQty !== undefined
         ? (card.dataset.hasQty === 'true' ? 'true' : 'false')
         : panel.dataset.baseHasQty;
@@ -141,17 +139,36 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const tabsEl = panel.querySelector('.pkg-tabs');
-      tabsEl.innerHTML = '';
-      packages.forEach((pkg, i) => {
-        const tab = document.createElement('button');
-        tab.type = 'button';
-        tab.className = 'pkg-tab' + (i === 0 ? ' active' : '');
-        tab.textContent = pkg.name;
-        tab.addEventListener('click', () => selectPackage(panel, packages, i));
-        tabsEl.appendChild(tab);
-      });
+      const variantEl = panel.querySelector('.variant-groups');
 
-      selectPackage(panel, packages, 0);
+      if (card.dataset.variantAxes) {
+        // Multi-axis picker (e.g. Ref Magnets: size × thickness × packaging)
+        panel.dataset.mode = 'variant';
+        tabsEl.style.display = 'none';
+        tabsEl.innerHTML = '';
+        panel.querySelector('.d-img').src = card.dataset.img || card.querySelector('img').src;
+        panel.querySelector('.d-img').alt = card.dataset.name;
+        const axes = JSON.parse(card.dataset.variantAxes);
+        const matrix = JSON.parse(card.dataset.variantMatrix);
+        renderVariantGroups(panel, variantEl, axes, matrix);
+      } else {
+        panel.dataset.mode = 'packages';
+        variantEl.style.display = 'none';
+        variantEl.innerHTML = '';
+        tabsEl.style.display = '';
+        const packages = JSON.parse(card.dataset.packages);
+        panel.dataset.packagesJson = card.dataset.packages;
+        tabsEl.innerHTML = '';
+        packages.forEach((pkg, i) => {
+          const tab = document.createElement('button');
+          tab.type = 'button';
+          tab.className = 'pkg-tab' + (i === 0 ? ' active' : '');
+          tab.textContent = pkg.name;
+          tab.addEventListener('click', () => selectPackage(panel, packages, i));
+          tabsEl.appendChild(tab);
+        });
+        selectPackage(panel, packages, 0);
+      }
 
       const qtyInput = panel.querySelector('.qty-stepper input');
       if (qtyInput) qtyInput.value = 1;
@@ -167,9 +184,72 @@ document.addEventListener('DOMContentLoaded', () => {
     panel.querySelectorAll('.pkg-tab').forEach((t, i) => t.classList.toggle('active', i === index));
     panel.querySelector('.d-img').src = pkg.img;
     panel.querySelector('.d-img').alt = pkg.name;
-    panel.querySelector('.pkg-price').textContent = pkg.price;
+    const priceEl = panel.querySelector('.pkg-price');
+    priceEl.classList.remove('unavailable');
+    priceEl.textContent = pkg.price;
     const includesEl = panel.querySelector('.pkg-includes');
     includesEl.innerHTML = pkg.includes.map(i => `<li>${i}</li>`).join('');
+    const addBtn = panel.querySelector('.add-to-quote-btn');
+    if (addBtn) { addBtn.disabled = false; addBtn.textContent = 'Add to My Quote'; }
+  }
+
+  function renderVariantGroups(panel, container, axes, matrix) {
+    container.innerHTML = '';
+    container.style.display = '';
+    const selection = {};
+    axes.forEach(axis => { selection[axis.key] = axis.options[0].value; });
+
+    function renderPricing() {
+      const key = axes.map(a => selection[a.key]).join('|');
+      const entry = matrix[key];
+      panel._variantEntry = entry;
+      panel._variantLabel = axes.map(a => {
+        const opt = a.options.find(o => o.value === selection[a.key]);
+        return opt ? opt.label : selection[a.key];
+      }).join(' · ');
+      const addBtn = panel.querySelector('.add-to-quote-btn');
+      const priceEl = panel.querySelector('.pkg-price');
+      const includesEl = panel.querySelector('.pkg-includes');
+      if (entry) {
+        priceEl.classList.remove('unavailable');
+        priceEl.textContent = entry.price;
+        includesEl.innerHTML = entry.includes.map(i => `<li>${i}</li>`).join('');
+        if (addBtn) { addBtn.disabled = false; addBtn.textContent = 'Add to My Quote'; }
+      } else {
+        priceEl.classList.add('unavailable');
+        priceEl.textContent = 'This combination isn\u2019t available — please choose a different one.';
+        includesEl.innerHTML = '';
+        if (addBtn) { addBtn.disabled = true; addBtn.textContent = 'Not Available'; }
+      }
+    }
+
+    axes.forEach(axis => {
+      const group = document.createElement('div');
+      group.className = 'variant-axis';
+      const label = document.createElement('div');
+      label.className = 'variant-axis-label';
+      label.textContent = axis.label;
+      group.appendChild(label);
+      const pillRow = document.createElement('div');
+      pillRow.className = 'pkg-tabs variant-pill-row';
+      axis.options.forEach((opt, i) => {
+        const pill = document.createElement('button');
+        pill.type = 'button';
+        pill.className = 'pkg-tab' + (i === 0 ? ' active' : '');
+        pill.textContent = opt.label;
+        pill.addEventListener('click', () => {
+          pillRow.querySelectorAll('.pkg-tab').forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          selection[axis.key] = opt.value;
+          renderPricing();
+        });
+        pillRow.appendChild(pill);
+      });
+      group.appendChild(pillRow);
+      container.appendChild(group);
+    });
+
+    renderPricing();
   }
 
   /* ---------- Quantity stepper (inside expanded panel, before adding) ---------- */
@@ -188,9 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.add-to-quote-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const panel = btn.closest('.svc-detail-panel');
-      const packages = JSON.parse(panel.dataset.packagesJson);
-      const selectedIndex = parseInt(panel.dataset.selectedIndex || '0', 10);
-      const pkg = packages[selectedIndex];
       const hasQty = panel.dataset.hasQty === 'true';
       let qty = 1;
       if (hasQty) {
@@ -198,6 +275,32 @@ document.addEventListener('DOMContentLoaded', () => {
         if (qtyInput) qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
       }
       const category = panel.closest('.category-block').querySelector('h2').textContent.trim();
+
+      if (panel.dataset.mode === 'variant') {
+        const entry = panel._variantEntry;
+        if (!entry) return;
+        const label = panel._variantLabel;
+        const img = panel.querySelector('.d-img').src;
+
+        ASCQuote.addToQuote({
+          name: panel.dataset.serviceName,
+          category: category,
+          package: label,
+          packages: [label],
+          priceDisplay: entry.price,
+          priceValue: ASCQuote.parsePrice(entry.price),
+          img: img,
+          hasQty: hasQty,
+          qty: qty
+        });
+
+        showToast(`✓ ${label} ${panel.dataset.serviceName} added to your quote.`);
+        return;
+      }
+
+      const packages = JSON.parse(panel.dataset.packagesJson);
+      const selectedIndex = parseInt(panel.dataset.selectedIndex || '0', 10);
+      const pkg = packages[selectedIndex];
 
       ASCQuote.addToQuote({
         name: panel.dataset.serviceName,
@@ -338,16 +441,46 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Inquiry form: send via EmailJS if configured, else fall back to mailto ---------- */
   const inquiryForm = document.getElementById('inquiryForm');
 
-  function emailJsIsConfigured() {
-    const cfg = window.ASC_EMAILJS_CONFIG;
-    return !!(window.emailjs && cfg && [cfg.publicKey, cfg.serviceId, cfg.templateId].every(v => v && v.indexOf('YOUR_') !== 0));
+  function getEmailJsStatus() {
+    // 'ready' | 'loading' | 'failed' | 'not-configured'
+    return window.ASC_EMAILJS_STATUS || 'not-configured';
+  }
+
+  // Waits for EmailJS to settle into 'ready' or 'failed' rather than judging it
+  // the instant submit is clicked — this is what stops a slow-but-successful
+  // script load from being mistaken for a genuine failure.
+  function waitForEmailJs(maxWaitMs) {
+    return new Promise((resolve) => {
+      const start = Date.now();
+      (function poll() {
+        const status = getEmailJsStatus();
+        if (status !== 'loading') {
+          console.log(`[ASC EmailJS] Resolved to "${status}" after ${Date.now() - start}ms.`);
+          resolve(status);
+          return;
+        }
+        if (Date.now() - start >= maxWaitMs) {
+          console.warn(`[ASC EmailJS] Still "loading" after ${maxWaitMs}ms — treating as timeout, not a hard failure.`);
+          resolve('timeout');
+          return;
+        }
+        setTimeout(poll, 150);
+      })();
+    });
   }
 
   const inquiryNote = document.getElementById('inquiryFormNote');
-  if (inquiryNote) {
-    inquiryNote.textContent = emailJsIsConfigured()
+  function updateInquiryNote() {
+    if (!inquiryNote) return;
+    inquiryNote.textContent = getEmailJsStatus() === 'ready'
       ? "Your inquiry is sent directly to us — you'll stay right here on the site."
       : 'This opens your email app with everything filled in, ready to send to us.';
+  }
+  updateInquiryNote();
+  // If the script is still loading when the page first renders, update the note
+  // once it settles instead of leaving a possibly-stale message in place.
+  if (getEmailJsStatus() === 'loading') {
+    waitForEmailJs(6000).then(updateInquiryNote);
   }
 
   function showInquirySuccess() {
@@ -370,7 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (inquiryForm) {
-    inquiryForm.addEventListener('submit', (e) => {
+    inquiryForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const f = inquiryForm;
       const fileInput = f.themefiles;
@@ -408,27 +541,51 @@ document.addEventListener('DOMContentLoaded', () => {
         quote_items: quoteText,
       };
 
-      if (emailJsIsConfigured()) {
-        const submitBtn = inquiryForm.querySelector('button[type="submit"]');
-        const originalLabel = submitBtn.textContent;
-        submitBtn.textContent = 'Sending…';
-        submitBtn.disabled = true;
+      const submitBtn = inquiryForm.querySelector('button[type="submit"]');
+      const originalLabel = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
 
+      let status = getEmailJsStatus();
+      console.log('[ASC EmailJS] Submit clicked. Status at click time:', status);
+
+      if (status === 'loading') {
+        showToast('Connecting to our email service…');
+        status = await waitForEmailJs(5000);
+      }
+
+      const resetButton = () => {
+        submitBtn.textContent = originalLabel;
+        submitBtn.disabled = false;
+      };
+
+      if (status === 'ready') {
         // sendForm reads the live <form> directly, which is what lets the file input
         // actually travel as a real email attachment (plain .send() with a data object cannot do this).
         emailjs.sendForm(window.ASC_EMAILJS_CONFIG.serviceId, window.ASC_EMAILJS_CONFIG.templateId, inquiryForm)
           .then(() => {
+            console.log('[ASC EmailJS] sendForm succeeded.');
             showInquirySuccess();
           })
           .catch((err) => {
-            console.error('EmailJS send failed, falling back to email app:', err);
-            submitBtn.textContent = originalLabel;
-            submitBtn.disabled = false;
-            sendViaMailto(fields);
+            console.error('[ASC EmailJS] sendForm failed after a successful init — genuine send failure:', err);
+            resetButton();
+            showToast("Couldn't reach our email service — opening your email app instead.");
+            setTimeout(() => sendViaMailto(fields), 1200);
           });
-      } else {
-        sendViaMailto(fields);
+        return;
       }
+
+      // Not ready, and not going to become ready in time — fall back, but say why.
+      resetButton();
+      const messages = {
+        timeout: "This is taking longer than expected — opening your email app instead.",
+        failed: "Couldn't reach our email service — opening your email app instead.",
+        'not-configured': 'Opening your email app with everything filled in, ready to send.',
+      };
+      console.warn('[ASC EmailJS] Falling back to mailto. Reason:', status);
+      showToast(messages[status] || messages.failed);
+      setTimeout(() => sendViaMailto(fields), 1200);
     });
   }
 

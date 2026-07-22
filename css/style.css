@@ -63,6 +63,8 @@ h2{font-family:var(--serif);font-weight:600;font-size:clamp(1.8rem,3.2vw,2.5rem)
 /* Buttons */
 .btn{display:inline-block;padding:14px 30px;border-radius:999px;font-size:0.8rem;font-weight:600;letter-spacing:0.6px;text-transform:uppercase;transition:transform .25s ease,box-shadow .25s ease,background .25s ease,color .25s ease;}
 .btn-primary{background:var(--charcoal);color:var(--ivory);border:none;cursor:pointer;}
+.btn:disabled{opacity:0.45;cursor:not-allowed;}
+.btn:disabled:hover{transform:none;}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(63,58,54,0.2);}
 .btn-outline{border:1px solid var(--charcoal);background:transparent;}
 .btn-outline:hover{background:var(--charcoal);color:var(--ivory);}
@@ -156,10 +158,17 @@ footer nav a:hover{color:var(--rose);}
 .pkg-tab{background:#fff;border:1.5px solid rgba(63,58,54,0.15);border-radius:999px;padding:9px 20px;font-size:0.82rem;font-weight:600;color:var(--charcoal);cursor:pointer;transition:all .25s ease;}
 .pkg-tab:hover{border-color:var(--rose-deep);}
 .pkg-tab.active{background:var(--charcoal);border-color:var(--charcoal);color:var(--ivory);}
+.variant-groups{margin-top:16px;}
+.variant-axis{margin-bottom:16px;}
+.variant-axis:last-child{margin-bottom:0;}
+.variant-axis-label{font-size:0.75rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#8a8580;margin-bottom:8px;}
+.variant-pill-row{margin-top:0;}
+.variant-pill-row .pkg-tab{padding:7px 16px;font-size:0.78rem;}
 .pkg-includes{list-style:none;padding:0;margin-top:10px;}
 .pkg-includes li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:0.92rem;color:#5b5551;}
 .pkg-includes li::before{content:'✓';color:var(--sage);font-weight:700;}
 .pkg-price{font-family:var(--serif);font-size:1.7rem;font-weight:600;color:var(--rose-deep);margin:6px 0 4px;}
+.pkg-price.unavailable{font-family:var(--sans);font-size:0.95rem;font-weight:600;color:#8a8580;}
 .pkg-btn-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:20px;}
 
 /* Quantity stepper (used both in expanded panel and quote drawer) */

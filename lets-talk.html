@@ -184,16 +184,45 @@
   Until real values are in place, the form automatically falls back to opening
   the visitor's email app instead (same as before) — it will not silently fail.
 -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // Explicit status the rest of the flow checks: loading -> ready | failed | not-configured
+  window.ASC_EMAILJS_STATUS = 'loading';
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+  onload="window.ASC_EMAILJS_SCRIPT_LOADED = true; console.log('[ASC EmailJS] CDN script loaded.');"
+  onerror="window.ASC_EMAILJS_SCRIPT_LOADED = false; window.ASC_EMAILJS_STATUS = 'failed'; console.error('[ASC EmailJS] CDN script failed to load — likely blocked by an ad blocker, privacy extension, in-app browser, or network filter. Will fall back to the email app.');">
+</script>
 <script>
   window.ASC_EMAILJS_CONFIG = {
     publicKey: "Ugu7rC2Tn0T2hjaXO",
     serviceId: "service_q1pj2am",
     templateId: "template_x489ika"
   };
-  if (window.emailjs && window.ASC_EMAILJS_CONFIG.publicKey.indexOf("YOUR_") !== 0) {
-    emailjs.init({ publicKey: window.ASC_EMAILJS_CONFIG.publicKey });
-  }
+  (function () {
+    const cfg = window.ASC_EMAILJS_CONFIG;
+    const configured = !!(cfg && [cfg.publicKey, cfg.serviceId, cfg.templateId].every(v => v && v.indexOf('YOUR_') !== 0));
+    if (!configured) {
+      window.ASC_EMAILJS_STATUS = 'not-configured';
+      console.warn('[ASC EmailJS] Placeholder config detected — EmailJS is not set up yet.');
+      return;
+    }
+    if (window.emailjs) {
+      try {
+        emailjs.init({ publicKey: cfg.publicKey });
+        window.ASC_EMAILJS_STATUS = 'ready';
+        console.log('[ASC EmailJS] Initialized successfully — ready to send.');
+      } catch (err) {
+        window.ASC_EMAILJS_STATUS = 'failed';
+        console.error('[ASC EmailJS] emailjs.init() threw an error:', err);
+      }
+    } else {
+      // The CDN script tag executed (or hasn't run its onerror yet) but the library
+      // object isn't present. Leave status as 'loading' unless onerror already fired —
+      // main.js will wait briefly rather than assuming failure outright.
+      window.ASC_EMAILJS_STATUS = window.ASC_EMAILJS_SCRIPT_LOADED === false ? 'failed' : 'loading';
+      console.warn('[ASC EmailJS] window.emailjs not available at init time. Status set to:', window.ASC_EMAILJS_STATUS);
+    }
+  })();
 </script>
 <script src="js/main.js"></script>
 </body>
