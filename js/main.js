@@ -78,6 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ---------- Service cards: open package configurator below the row ---------- */
+  document.querySelectorAll('.svc-detail-panel').forEach(panel => {
+    panel.dataset.baseHasQty = panel.dataset.hasQty || 'false';
+  });
   document.querySelectorAll('.svc-card').forEach(card => {
     card.addEventListener('click', () => {
       const row = card.closest('.svc-row');
@@ -109,9 +112,33 @@ document.addEventListener('DOMContentLoaded', () => {
       const packages = JSON.parse(card.dataset.packages);
       panel.dataset.serviceName = card.dataset.name;
       panel.dataset.packagesJson = card.dataset.packages;
+      panel.dataset.hasQty = card.dataset.hasQty !== undefined
+        ? (card.dataset.hasQty === 'true' ? 'true' : 'false')
+        : panel.dataset.baseHasQty;
+
+      const stepperWrap = panel.querySelector('.qty-stepper');
+      if (stepperWrap) stepperWrap.style.display = panel.dataset.hasQty === 'true' ? '' : 'none';
+
       panel.querySelector('.d-name').textContent = card.dataset.name;
       panel.querySelector('.d-overview').textContent = card.dataset.overview;
       panel.querySelector('.d-perfect').textContent = card.dataset.perfect;
+
+      const addonField = panel.querySelector('.d-addon-field');
+      if (card.dataset.addons) {
+        const addons = JSON.parse(card.dataset.addons);
+        panel.querySelector('.d-addons').innerHTML = addons.map(a => `<li>${a}</li>`).join('');
+        addonField.style.display = '';
+      } else {
+        addonField.style.display = 'none';
+      }
+
+      const noteField = panel.querySelector('.d-note-field');
+      if (card.dataset.note) {
+        panel.querySelector('.d-note').textContent = card.dataset.note;
+        noteField.style.display = '';
+      } else {
+        noteField.style.display = 'none';
+      }
 
       const tabsEl = panel.querySelector('.pkg-tabs');
       tabsEl.innerHTML = '';
