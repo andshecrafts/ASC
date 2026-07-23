@@ -137,7 +137,7 @@ footer nav a:hover{color:var(--rose);}
 .svc-card{background:#fff;border:1px solid rgba(63,58,54,0.1);border-radius:4px 24px 4px 24px;overflow:hidden;cursor:pointer;text-align:left;font-family:inherit;transition:box-shadow .25s ease,border-color .25s ease;padding:0;}
 .svc-card img{width:100%;aspect-ratio:4/3;object-fit:cover;}
 .svc-card .svc-card-body{padding:16px 18px 20px;}
-.svc-card h4{font-family:var(--serif);font-size:1.1rem;font-weight:600;margin-bottom:4px;}
+.svc-card h3{font-family:var(--serif);font-size:1.1rem;font-weight:600;margin-bottom:4px;}
 .svc-card .svc-price{font-size:0.76rem;color:var(--rose-deep);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;}
 .svc-card .svc-learn{font-size:0.78rem;color:var(--sage);margin-top:8px;font-weight:600;}
 .svc-card:hover{box-shadow:0 12px 24px rgba(63,58,54,0.1);}
@@ -424,3 +424,6 @@ footer nav a:hover{color:var(--rose);}
   /* Section rhythm: reduce generous desktop spacing for a tighter mobile flow */
   section{padding:48px 0;}
 }
+
+/* Visually hidden but accessible to screen readers / SEO heading structure */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
