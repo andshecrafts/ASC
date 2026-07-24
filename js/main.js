@@ -48,6 +48,7 @@ const ASCQuote = (function () {
   function updateBadges() {
     const count = getQuote().length;
     document.querySelectorAll('.quote-badge').forEach(b => { b.textContent = count; });
+    document.dispatchEvent(new CustomEvent('asc:quote-changed', { detail: { count } }));
   }
 
   return { getQuote, saveQuote, addToQuote, removeFromQuote, updateQuoteItem, parsePrice, estimateTotal, updateBadges };
@@ -265,6 +266,18 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ---------- Add to My Quote ---------- */
+  function flashButtonSuccess(btn) {
+    if (btn.disabled) return; // don't clobber the "Not Available" variant state
+    const original = btn.textContent;
+    btn.textContent = '✓ Added to Quote';
+    btn.classList.add('btn-flash-success');
+    clearTimeout(btn._flashTimer);
+    btn._flashTimer = setTimeout(() => {
+      btn.textContent = original;
+      btn.classList.remove('btn-flash-success');
+    }, 1400);
+  }
+
   document.querySelectorAll('.add-to-quote-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const panel = btn.closest('.svc-detail-panel');
@@ -294,6 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
           qty: qty
         });
 
+        flashButtonSuccess(btn);
         showToast(`✓ ${label} ${panel.dataset.serviceName} added to your quote.`);
         return;
       }
@@ -314,6 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
         qty: qty
       });
 
+      flashButtonSuccess(btn);
       showToast(`✓ ${pkg.name} ${panel.dataset.serviceName} added to your quote.`);
     });
   });
@@ -612,6 +627,17 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.href = `mailto:andshecraftsph@gmail.com?subject=${subject}&body=${body}`;
   }
 
+  /* ---------- Story tile images: swap shimmer placeholder for the real photo once loaded ---------- */
+  document.querySelectorAll('.story-tile img').forEach(img => {
+    const markLoaded = () => {
+      img.classList.add('loaded');
+      const tile = img.closest('.story-tile');
+      if (tile) tile.classList.add('img-ready');
+    };
+    if (img.complete && img.naturalWidth > 0) markLoaded();
+    else img.addEventListener('load', markLoaded, { once: true });
+  });
+
   /* ---------- Story collage lightbox (Event Gallery) ---------- */
   const storyLightbox = document.getElementById('storyLightbox');
   if (storyLightbox) {
@@ -651,5 +677,81 @@ document.addEventListener('DOMContentLoaded', () => {
       const diff = e.changedTouches[0].screenX - touchStartX;
       if (Math.abs(diff) > 40) diff > 0 ? prev() : next();
     }, { passive: true });
+  }
+
+  /* ---------- Quote Drawer: Escape-to-close + focus restore ---------- */
+  let lastDrawerTrigger = null;
+  document.querySelectorAll('.quote-nav-btn, .quote-fab').forEach(btn => {
+    btn.addEventListener('click', (e) => { lastDrawerTrigger = e.currentTarget; });
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const overlay = document.getElementById('quoteDrawerOverlay');
+    if (overlay && overlay.classList.contains('open')) {
+      overlay.classList.remove('open');
+      if (lastDrawerTrigger) { lastDrawerTrigger.focus(); lastDrawerTrigger = null; }
+    }
+  });
+  // The existing close button / backdrop click already remove the 'open' class directly
+  // rather than through closeDrawer(); watch for that so focus still gets restored.
+  const drawerOverlayEl = document.getElementById('quoteDrawerOverlay');
+  if (drawerOverlayEl) {
+    const restoreFocusOnClose = () => {
+      if (!drawerOverlayEl.classList.contains('open') && lastDrawerTrigger) {
+        lastDrawerTrigger.focus();
+        lastDrawerTrigger = null;
+      }
+    };
+    new MutationObserver(restoreFocusOnClose).observe(drawerOverlayEl, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  /* ---------- Progress indicator: interactive navigation + honest completion state ---------- */
+  const progressSteps = document.querySelectorAll('.progress-step');
+  if (progressSteps.length) {
+    const onServicesPage = !!document.querySelector('.svc-card');
+    const onLetsTalkPage = !!document.getElementById('inquiryForm');
+
+    if (onServicesPage) sessionStorage.setItem('asc_visited_services', 'true');
+    const visitedServices = sessionStorage.getItem('asc_visited_services') === 'true';
+
+    function renderProgressSteps() {
+      // Once the inquiry has actually succeeded, the indicator is final — don't let the
+      // quote being cleared (which fires asc:quote-changed) undo the completed state.
+      const step4 = document.querySelector('.progress-step[data-step="4"]');
+      if (step4 && step4.classList.contains('done')) return;
+
+      const quoteCount = ASCQuote.getQuote().length;
+      progressSteps.forEach(step => {
+        const n = parseInt(step.dataset.step, 10);
+        const dot = step.querySelector('.p-dot');
+        step.classList.remove('done', 'active');
+        let done = false, active = false;
+
+        if (n === 1) {
+          done = onServicesPage || visitedServices;
+          active = !done;
+        } else if (n === 2) {
+          done = quoteCount > 0;
+          active = onServicesPage && !done;
+        } else if (n === 3) {
+          active = onLetsTalkPage;
+        }
+        // step 4 only ever gets marked done by showInquirySuccess() after a real submission
+
+        if (done) { step.classList.add('done'); dot.textContent = '✓'; }
+        else { dot.textContent = String(n); if (active) step.classList.add('active'); }
+      });
+    }
+    renderProgressSteps();
+    document.addEventListener('asc:quote-changed', renderProgressSteps);
+
+    progressSteps.forEach(step => {
+      step.addEventListener('click', () => {
+        const n = parseInt(step.dataset.step, 10);
+        if (n === 1) window.location.href = 'services.html';
+        else if (n === 2) { lastDrawerTrigger = step; openDrawer(); }
+        else if (n === 3) window.location.href = 'lets-talk.html';
+      });
+    });
   }
 });

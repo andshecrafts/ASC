@@ -14,6 +14,17 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--ivory);color:var(--charcoal);font-family:var(--sans);line-height:1.6;}
+
+/* Branded keyboard focus state — charcoal outline gives ~11:1 contrast against the ivory
+   background (well above the WCAG 1.4.11 non-text 3:1 minimum), with a soft rose glow for
+   brand character. Applies to every interactive element sitewide. */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible,
+select:focus-visible, [tabindex]:focus-visible {
+  outline: 2.5px solid var(--charcoal);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(197,143,155,0.35);
+  border-radius: 3px;
+}
 a{text-decoration:none;color:inherit;}
 ul{list-style:none;}
 img{max-width:100%;display:block;}
@@ -129,6 +140,9 @@ footer nav a:hover{color:var(--rose);}
 .contact-info-list{list-style:none;padding:0;}
 .contact-info-list li{padding:10px 0;border-bottom:1px solid rgba(63,58,54,0.08);font-size:0.95rem;}
 .contact-info-list .c-label{color:var(--sage);font-weight:600;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:2px;}
+.contact-info-list a.c-link{display:inline-flex;align-items:center;gap:8px;color:var(--charcoal);text-decoration:none;transition:color .2s ease;}
+.contact-info-list a.c-link:hover{color:var(--rose-deep);}
+.contact-info-list .c-icon{flex-shrink:0;color:var(--rose-deep);}
 
 /* Interactive service cards (Services page) */
 .svc-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:0;}
@@ -265,7 +279,9 @@ footer nav a:hover{color:var(--rose);}
 
 /* Progress indicator */
 .progress-steps{display:flex;justify-content:center;align-items:center;gap:0;flex-wrap:wrap;padding:18px 0 6px;}
-.progress-step{display:flex;align-items:center;gap:8px;font-size:0.76rem;color:#a8a19b;font-weight:600;}
+.progress-step{display:flex;align-items:center;gap:8px;font-size:0.76rem;color:#a8a19b;font-weight:600;background:none;border:none;font-family:var(--sans);cursor:pointer;padding:4px 2px;border-radius:6px;transition:color .2s ease;}
+.progress-step:hover:not(:disabled){color:var(--rose-deep);}
+.progress-step:disabled{cursor:default;}
 .progress-step .p-dot{
   width:20px;height:20px;border-radius:50%;background:#e4dfd9;color:#fff;
   display:flex;align-items:center;justify-content:center;font-size:0.68rem;flex-shrink:0;
@@ -306,6 +322,22 @@ footer nav a:hover{color:var(--rose);}
   border:1px solid rgba(63,58,54,0.1);
   padding:6px;margin:0 auto 18px;display:block;
 }
+.success-check{display:block;margin:0 auto 6px;}
+.success-check-circle{
+  stroke:var(--sage);stroke-width:2.5;
+  stroke-dasharray:151;stroke-dashoffset:151;
+  animation:success-circle-draw .5s ease-out forwards;
+}
+.success-check-mark{
+  stroke:var(--sage);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:32;stroke-dashoffset:32;
+  animation:success-check-draw .35s ease-out .5s forwards;
+}
+@keyframes success-circle-draw{to{stroke-dashoffset:0;}}
+@keyframes success-check-draw{to{stroke-dashoffset:0;}}
+@media (prefers-reduced-motion:reduce){
+  .success-check-circle,.success-check-mark{animation:none;stroke-dashoffset:0;}
+}
 
 /* ============ STORY COLLAGE (Event Gallery V10) ============ */
 .story-collage{
@@ -318,14 +350,23 @@ footer nav a:hover{color:var(--rose);}
 .story-tile{
   position:relative;overflow:hidden;border-radius:4px;cursor:zoom-in;
   grid-column:span 3; grid-row:span 2;
+  background:linear-gradient(100deg, rgba(63,58,54,0.06) 30%, rgba(63,58,54,0.11) 50%, rgba(63,58,54,0.06) 70%);
+  background-size:200% 100%;
+  animation:story-shimmer 1.6s ease-in-out infinite;
 }
+.story-tile.img-ready{animation:none; background:none;}
+.story-tile img{opacity:0;}
+.story-tile img.loaded{opacity:1;}
+@keyframes story-shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 .story-tile.tall{grid-column:span 2; grid-row:span 4;}
 .story-tile.landscape{grid-column:span 3; grid-row:span 2;}
-.story-tile.wide{grid-column:span 4; grid-row:span 2;}
-.story-tile.hero{grid-column:span 4; grid-row:span 3;}
+.story-tile.wide{grid-column:span 6; grid-row:span 2;}
+.story-tile.hero{grid-column:span 6; grid-row:span 3;}
+.story-tile.square{grid-column:span 2; grid-row:span 2;}
+.story-tile.tallsmall{grid-column:span 2; grid-row:span 3;}
 .story-tile img{
   width:100%;height:100%;object-fit:cover;display:block;
-  transition:transform .5s ease;
+  transition:transform .5s ease, opacity .4s ease;
 }
 .story-tile:hover img{transform:scale(1.045);}
 .story-tile::after{
@@ -342,6 +383,8 @@ footer nav a:hover{color:var(--rose);}
   .story-tile.landscape{grid-column:span 2; grid-row:span 2;}
   .story-tile.wide{grid-column:span 4; grid-row:span 2;}
   .story-tile.hero{grid-column:span 4; grid-row:span 3;}
+  .story-tile.square{grid-column:span 2; grid-row:span 2;}
+  .story-tile.tallsmall{grid-column:span 2; grid-row:span 3;}
 }
 @media (max-width:560px){
   .story-collage{grid-template-columns:repeat(2, 1fr);grid-auto-rows:120px;gap:6px;}
@@ -350,6 +393,8 @@ footer nav a:hover{color:var(--rose);}
   .story-tile.landscape{grid-column:span 2; grid-row:span 2;}
   .story-tile.wide{grid-column:span 2; grid-row:span 2;}
   .story-tile.hero{grid-column:span 2; grid-row:span 3;}
+  .story-tile.square{grid-column:span 1; grid-row:span 2;}
+  .story-tile.tallsmall{grid-column:span 1; grid-row:span 3;}
 }
 
 /* Premium lightbox for the story collage */
