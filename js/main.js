@@ -521,11 +521,6 @@ document.addEventListener('DOMContentLoaded', () => {
     inquiryForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const f = inquiryForm;
-      const fileInput = f.themefiles;
-      let fileNote = 'None attached';
-      if (fileInput && fileInput.files.length) {
-        fileNote = `${fileInput.files[0].name} (attached)`;
-      }
 
       const quoteItems = ASCQuote.getQuote();
       let quoteText = 'None selected';
@@ -550,7 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
         guests: f.guests.value,
         services: f.services.value,
         theme: f.theme.value,
-        themefiles: fileNote,
+        theme_link: f.theme_link.value,
         budget: f.budget.value,
         requests: f.requests.value,
         quote_items: quoteText,
@@ -615,7 +610,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `Estimated Guest Count: ${fields.guests}`,
       `Services Interested In: ${fields.services}`,
       `Theme / Inspiration (notes): ${fields.theme}`,
-      `Theme / Inspiration Photo: ${fields.themefiles === 'None attached' ? 'None attached' : fields.themefiles + ' — please re-attach this in your email app, as this fallback method can\'t carry it automatically.'}`,
+      `Theme / Inspiration Photo Link: ${fields.theme_link || 'None provided'}`,
       `Preferred Budget: ${fields.budget}`,
       `Other Requests: ${fields.requests}`,
     ];

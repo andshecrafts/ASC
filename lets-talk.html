@@ -101,7 +101,7 @@
       <div class="split-2col" style="display:grid;grid-template-columns:1.2fr 1fr;gap:40px;margin-top:20px;align-items:start;">
         <div class="info-card reveal">
           <h3 style="margin-bottom:18px;">Tell Us About Your Project</h3>
-          <form id="inquiryForm" class="inquiry-form" enctype="multipart/form-data">
+          <form id="inquiryForm" class="inquiry-form">
             <div class="form-row-2">
               <div><label>Name</label><input type="text" name="name" required></div>
               <div><label>Email Address</label><input type="email" name="email" required></div>
@@ -122,8 +122,8 @@
             <div>
               <label>Theme or Inspiration Photo</label>
               <div class="file-upload">
-                <input type="file" name="themefiles" accept="image/*">
-                <p style="font-size:0.72rem;color:#8a8580;margin-top:6px;">One photo works best for a reliable attachment. Have more than one? Send extras on Facebook Messenger.</p>
+                <input type="text" name="theme_link" placeholder="Paste a photo link (Google Drive, Pinterest, etc.) — optional">
+                <p style="font-size:0.72rem;color:#8a8580;margin-top:6px;">Prefer to just send the photo directly? Message it to us on <a href="https://www.facebook.com/andshecraftsph" target="_blank" rel="noopener">Facebook</a> or <a href="https://www.instagram.com/andshecrafts_" target="_blank" rel="noopener">Instagram</a> and we'll match it to your inquiry.</p>
               </div>
             </div>
             <input type="hidden" name="quote_items" id="quoteItemsHidden">

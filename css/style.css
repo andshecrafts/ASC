@@ -203,7 +203,6 @@ footer nav a:hover{color:var(--rose);}
 
 /* File upload field */
 .file-upload{border:1.5px dashed rgba(63,58,54,0.25);border-radius:8px;padding:16px;background:rgba(250,247,242,0.6);font-size:0.85rem;color:#6b6560;}
-.file-upload input[type="file"]{width:100%;font-size:0.85rem;}
 
 /* ===================================================================
    QUOTE BUILDER — single clean set of rules (V8.1 / V8.2)
@@ -360,8 +359,8 @@ footer nav a:hover{color:var(--rose);}
 @keyframes story-shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 .story-tile.tall{grid-column:span 2; grid-row:span 4;}
 .story-tile.landscape{grid-column:span 3; grid-row:span 2;}
-.story-tile.wide{grid-column:span 6; grid-row:span 2;}
-.story-tile.hero{grid-column:span 6; grid-row:span 3;}
+.story-tile.wide{grid-column:span 4; grid-row:span 2;}
+.story-tile.hero{grid-column:span 4; grid-row:span 3;}
 .story-tile.square{grid-column:span 2; grid-row:span 2;}
 .story-tile.tallsmall{grid-column:span 2; grid-row:span 3;}
 .story-tile img{
