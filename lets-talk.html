@@ -116,7 +116,73 @@
             </div>
             <div class="form-row-2">
               <div><label>Estimated Guest Count</label><input type="number" name="guests" min="1" step="1" inputmode="numeric" placeholder="e.g. 50"></div>
-              <div><label>Services You're Interested In</label><input type="text" name="services" placeholder="e.g. Styling, Invitations"></div>
+              <div>
+              <label>Services You're Interested In</label>
+              <div class="svc-ms" id="servicesMultiselect">
+                <button type="button" class="svc-ms-trigger" aria-haspopup="true" aria-expanded="false">
+                  <span class="svc-ms-summary">Select one or more services</span>
+                  <span class="svc-ms-arrow">▾</span>
+                </button>
+                <div class="svc-ms-panel">
+                <div class="svc-ms-group">
+                  <div class="svc-ms-group-label">Event Solutions</div>
+                  <label class="svc-ms-option"><input type="checkbox" value="Backdrop Styling"><span>Backdrop Styling</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Event Rentals"><span>Event Rentals</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Photobooth Services"><span>Photobooth Services</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Event Photography"><span>Event Photography</span></label>
+                </div>
+                <div class="svc-ms-group">
+                  <div class="svc-ms-group-label">Business & Branding Solutions</div>
+                  <label class="svc-ms-option"><input type="checkbox" value="Business Cards"><span>Business Cards</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Business Essentials"><span>Business Essentials</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Customized Promotional Materials"><span>Customized Promotional Materials</span></label>
+                </div>
+                <div class="svc-ms-group">
+                  <div class="svc-ms-group-label">Event Souvenirs & Printing Needs</div>
+                  <label class="svc-ms-option"><input type="checkbox" value="Customized Mugs & Drinkware"><span>Customized Mugs & Drinkware</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Ref Magnets"><span>Ref Magnets</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Custom Crochet Souvenirs"><span>Custom Crochet Souvenirs</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Invitations"><span>Invitations</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Gift Tags"><span>Gift Tags</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Back Cards"><span>Back Cards</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Souvenir Holders"><span>Souvenir Holders</span></label>
+                </div>
+                <div class="svc-ms-group">
+                  <div class="svc-ms-group-label">Printing Services</div>
+                  <label class="svc-ms-option"><input type="checkbox" value="Instax-inspired Photos"><span>Instax-inspired Photos</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Photocards"><span>Photocards</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Photo Prints"><span>Photo Prints</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Photo Albums"><span>Photo Albums</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Stickers & Labels"><span>Stickers & Labels</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Name Tags"><span>Name Tags</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Magnetic Bookmarks"><span>Magnetic Bookmarks</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Document Printing"><span>Document Printing</span></label>
+                </div>
+                <div class="svc-ms-group">
+                  <div class="svc-ms-group-label">Handmade Crafts & Personalized Gifts</div>
+                  <label class="svc-ms-option"><input type="checkbox" value="Clay Crafts"><span>Clay Crafts</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Crochet Creations"><span>Crochet Creations</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Charms & Bracelets"><span>Charms & Bracelets</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Fuzzy Wire Crafts"><span>Fuzzy Wire Crafts</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Handmade Bouquets"><span>Handmade Bouquets</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Customized Keepsakes"><span>Customized Keepsakes</span></label>
+                </div>
+                <div class="svc-ms-group">
+                  <div class="svc-ms-group-label">Other Services</div>
+                  <label class="svc-ms-option"><input type="checkbox" value="Digital Invitation"><span>Digital Invitation</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="In-Shop Photobooth"><span>In-Shop Photobooth</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Lamination"><span>Lamination</span></label>
+                  <label class="svc-ms-option"><input type="checkbox" value="Photocopy"><span>Photocopy</span></label>
+                </div>
+                  <div class="svc-ms-group">
+                    <div class="svc-ms-group-label">Other</div>
+                    <label class="svc-ms-option"><input type="checkbox" id="svcOtherCheck" value="__other__"><span>Something else not listed here</span></label>
+                    <input type="text" id="svcOtherInput" class="svc-ms-other-input" placeholder="Tell us what you need" style="display:none;">
+                  </div>
+                </div>
+              </div>
+              <input type="hidden" name="services" id="servicesHidden">
+            </div>
             </div>
             <div><label>Theme or Inspiration Notes</label><input type="text" name="theme" placeholder="Describe your theme, colors, or ideas"></div>
             <div>

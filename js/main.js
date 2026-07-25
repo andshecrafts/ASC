@@ -154,8 +154,10 @@ document.addEventListener('DOMContentLoaded', () => {
         renderVariantGroups(panel, variantEl, axes, matrix);
       } else {
         panel.dataset.mode = 'packages';
-        variantEl.style.display = 'none';
-        variantEl.innerHTML = '';
+        if (variantEl) {
+          variantEl.style.display = 'none';
+          variantEl.innerHTML = '';
+        }
         tabsEl.style.display = '';
         const packages = JSON.parse(card.dataset.packages);
         panel.dataset.packagesJson = card.dataset.packages;
@@ -455,6 +457,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------- Inquiry form: send via EmailJS if configured, else fall back to mailto ---------- */
   const inquiryForm = document.getElementById('inquiryForm');
+
+  /* ---------- Services multi-select: grouped checkbox dropdown ---------- */
+  const servicesMs = document.getElementById('servicesMultiselect');
+  if (servicesMs) {
+    const trigger = servicesMs.querySelector('.svc-ms-trigger');
+    const summary = servicesMs.querySelector('.svc-ms-summary');
+    const panel = servicesMs.querySelector('.svc-ms-panel');
+    const hiddenInput = document.getElementById('servicesHidden');
+    const otherCheck = document.getElementById('svcOtherCheck');
+    const otherInput = document.getElementById('svcOtherInput');
+    const allChecks = Array.from(servicesMs.querySelectorAll('input[type="checkbox"]'));
+
+    function updateServicesState() {
+      const checked = allChecks.filter(c => c.checked && c !== otherCheck);
+      const names = checked.map(c => c.value);
+      if (otherCheck.checked && otherInput.value.trim()) {
+        names.push(`Other: ${otherInput.value.trim()}`);
+      } else if (otherCheck.checked) {
+        names.push('Other');
+      }
+
+      hiddenInput.value = names.join(', ');
+
+      if (names.length === 0) {
+        summary.textContent = 'Select one or more services';
+        servicesMs.classList.remove('has-selection');
+      } else if (names.length <= 2) {
+        summary.textContent = names.join(', ');
+        servicesMs.classList.add('has-selection');
+      } else {
+        summary.textContent = `${names[0]}, ${names[1]} +${names.length - 2} more`;
+        servicesMs.classList.add('has-selection');
+      }
+    }
+
+    trigger.addEventListener('click', () => {
+      servicesMs.classList.toggle('open');
+      trigger.setAttribute('aria-expanded', servicesMs.classList.contains('open'));
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!servicesMs.contains(e.target)) {
+        servicesMs.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && servicesMs.classList.contains('open')) {
+        servicesMs.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.focus();
+      }
+    });
+
+    otherCheck.addEventListener('change', () => {
+      otherInput.style.display = otherCheck.checked ? '' : 'none';
+      if (otherCheck.checked) otherInput.focus();
+      else otherInput.value = '';
+      updateServicesState();
+    });
+    otherInput.addEventListener('input', updateServicesState);
+
+    allChecks.forEach(c => {
+      if (c !== otherCheck) c.addEventListener('change', updateServicesState);
+    });
+
+    updateServicesState();
+  }
+
 
   function getEmailJsStatus() {
     // 'ready' | 'loading' | 'failed' | 'not-configured'

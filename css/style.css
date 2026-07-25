@@ -195,6 +195,31 @@ footer nav a:hover{color:var(--rose);}
 .inquiry-form{display:grid;gap:16px;}
 .inquiry-form label{font-size:0.76rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;color:var(--sage);display:block;margin-bottom:6px;}
 .inquiry-form input, .inquiry-form textarea, .inquiry-form select{width:100%;padding:13px 16px;border:1px solid rgba(63,58,54,0.2);border-radius:8px;background:#fff;font-family:var(--sans);font-size:0.94rem;color:var(--charcoal);}
+
+/* Services multi-select (grouped checkbox dropdown) */
+.svc-ms{position:relative;}
+.svc-ms-trigger{
+  width:100%;padding:13px 16px;border:1px solid rgba(63,58,54,0.2);border-radius:8px;background:#fff;
+  font-family:var(--sans);font-size:0.94rem;color:var(--charcoal);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;text-align:left;
+}
+.svc-ms-summary{color:#8a8580;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.svc-ms.has-selection .svc-ms-summary{color:var(--charcoal);}
+.svc-ms-arrow{flex-shrink:0;transition:transform .2s ease;color:#8a8580;}
+.svc-ms.open .svc-ms-arrow{transform:rotate(180deg);}
+.svc-ms-panel{
+  display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:20;
+  background:#fff;border:1px solid rgba(63,58,54,0.15);border-radius:10px;
+  box-shadow:0 16px 34px rgba(63,58,54,0.15);
+  max-height:340px;overflow-y:auto;padding:10px 0;
+}
+.svc-ms.open .svc-ms-panel{display:block;}
+.svc-ms-group{padding:8px 18px;}
+.svc-ms-group + .svc-ms-group{border-top:1px solid rgba(63,58,54,0.08);}
+.svc-ms-group-label{font-size:0.72rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:6px;}
+.svc-ms-option{display:flex;align-items:center;gap:10px;padding:6px 2px;font-size:0.88rem;color:var(--charcoal);cursor:pointer;}
+.svc-ms-option input{width:auto;padding:0;accent-color:var(--rose-deep);cursor:pointer;}
+.svc-ms-other-input{margin-top:6px;font-size:0.85rem;padding:9px 12px;}
 .inquiry-form textarea{min-height:90px;resize:vertical;}
 .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 @media (max-width:640px){.form-row-2{grid-template-columns:1fr;}}
